@@ -47,7 +47,7 @@ benchmark-run/
 ### 步骤 2 · 锁定密封测试题与技术栈
 
 - 测试题就放在本 skill 同目录的 `benchmark-task.md`，是一道**综合型 Dashboard** 题（8 个模块、亮暗双主题、完整动效体系、响应式）。
-- 技术栈已在该题中锁死：**TypeScript + React + Vite + Tailwind + shadcn/ui/Radix + Motion**，**仅输出代码**。
+- 技术栈已在该题中锁死：**TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion**，**仅输出代码**。
 
 > **若用户想换题**：直接编辑 `benchmark-task.md` 即可，下次运行自动生效，无需改本流程。
 
@@ -85,9 +85,9 @@ benchmark-run/
 <此处插入 benchmark-task.md 的完整内容>
 
 【交付要求】
-- 技术栈、交付形式**严格按需求文件「技术栈约束」一节**执行（本题即 TypeScript + React + Vite + Tailwind + shadcn/ui 或 Radix + Motion），不得自行更换。
+- 技术栈、交付形式**严格按需求文件「技术栈约束」一节**执行（本题即 TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion，七项缺一不可、不得替换），不得自行更换。
 - 把完整可运行工程写到指定目录：<abs-path>/benchmark-run/results/<skill>/（该目录已为你创建，工程根即此目录）。
-- 工程必须按需求文件指定的方式零配置启动（本题即 `npm install && npm run dev`），浏览器打开即见完整效果。
+- 工程必须按需求文件指定的方式零配置启动（本题即 `npm install && npm run dev`，Next.js 默认 `http://localhost:3000`），浏览器打开即见完整效果。
 - 仅输出代码：README 只放启动说明，不要写任何设计思路自述或对所用技巧的解释。
 - 不调用任何真实 API，数据全部 mock。
 
@@ -141,7 +141,7 @@ benchmark-run/
   1. skill 名 + 是否通过启动验证的徽标（✅ 可运行 / ⚠️ 启动失败）
   2. **首屏截图**（`_preview.png`，用相对路径引用；用 base64 内联或 `<img src="results/<skill>/_preview.png">` 均可）
   3. **两个跳转入口**：
-     - 「在新标签打开运行中的页面」→ 指向该 skill 的本地 dev server URL（如 `http://localhost:5173`）；
+     - 「在新标签打开运行中的页面」→ 指向该 skill 的本地 dev server URL（Next.js 默认 `http://localhost:3000`）；
      - 「打开源码目录」→ 指向 `results/<skill>/`（若审查页通过本地 http server 打开则可点击）。
   4. 待填的**评分槽位**（步骤 6 填入后会重写此页加入分数，或在报告里呈现）。
 - 卡片支持点击放大截图（lightbox 效果，纯 JS 实现即可）。
@@ -222,7 +222,7 @@ benchmark-run/
 
 | 场景 | 正确做法 |
 |------|---------|
-| 某 skill 要求不同技术栈 | **不允许破例**。技术栈是公平基线；若该 skill 在锁死栈下表现差，正是测试要反映的结果，如实记录 |
+| 某 skill 要求不同技术栈 | **不允许破例**。技术栈（TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion）是公平基线；若该 skill 在锁死栈下表现差，正是测试要反映的结果，如实记录 |
 | 某 subagent 没遵守"仅输出代码"夹带了大量自述 | 评分"工程化"维度酌情扣分，但**不剔除**其产物 |
 | 两个 skill 产物高度雷同 | 如实记录；通常说明 prompt 注入足够"密封"，反而是公平的好迹象 |
 | 某 skill 始终跑不起来 | 不放弃，记为启动失败，可运行性 0 分，但保留其余维度的人工评估空间 |
