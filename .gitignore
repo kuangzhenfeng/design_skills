@@ -1,3 +1,7 @@
 .playwright-mcp
 benchmark-run
+benchmark-temp
+benchmark-for-ultra-design/.next
+benchmark-for-ultra-design/node_modules
 __pycache__
+node_modules

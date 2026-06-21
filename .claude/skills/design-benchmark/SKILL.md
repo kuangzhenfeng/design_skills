@@ -1,9 +1,9 @@
 ---
-name: frontend-design-benchmark
+name: design-benchmark
 description: 当需要公平对比多个前端设计 skill（如 ultra-design、frontend-design 等）在同题下的设计效果时使用。为每个待测 skill 创建隔离的 subagent 并行做同一道密封测试题，收集产物后生成可跳转的整合审查页，并由主 agent 按多维标准打分排名。
 ---
 
-# Frontend Design Benchmark（前端设计对比测试）
+# Design Benchmark（前端设计对比测试）
 
 ## 概述
 

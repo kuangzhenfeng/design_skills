@@ -186,6 +186,12 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 /* 投影：α=0 时大幅减弱(0.08)，让最通透玻璃几乎不压暗 */
 --shadow-glass: 0 1px 0 rgb(255 255 255 / clamp(0.06, calc(0.06 + 0.08 * var(--glass-alpha)), 0.22)) inset,
                 0 18px 50px -12px rgb(0 0 0 / clamp(0.08, calc(0.08 + 0.25 * var(--glass-alpha)), 0.55));
+
+/* SheenSweep 流光专用高光色——主题自适应，【非】--glass-alpha 驱动，放 base 层随明暗切换。
+   暗色 0.18 含蓄：深色流星夜空上写死亮白(0.6)会刺眼、喧宾夺主，必须压低（对齐 ultra-design）；
+   亮色 0.85 明亮：浅色背景上流光要够显眼才看得见。 */
+--glass-highlight: rgba(255, 255, 255, 0.18);   /* 暗色 :root */
+/* 亮色 [data-theme='light'] 下覆写为：--glass-highlight: rgba(255, 255, 255, 0.85); */
 ```
 
 ### Store + 滑块
@@ -365,6 +371,51 @@ interface Particle {
 
 ---
 
+## 默认 Favicon（流星夜空玻璃方 · 消除 404 + 品牌一致）
+
+Next.js App Router 默认无 favicon，`GET /favicon.ico` 必然 404（验收清单"无 console error"的常见扣分点）。工程**必须自带默认 favicon**，与流星夜空液态玻璃语言一致。
+
+### 配方：深空夜底 + 流星划过 + 极光" A "（SVG，零外链）
+
+`src/app/icon.svg`（Next.js App Router 自动注入 `<link rel="icon">`，零路由代码）：
+
+```svg
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#05070F"/>
+      <stop offset="1" stop-color="#0B1426"/>
+    </linearGradient>
+    <linearGradient id="meteor" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#00D4AA" stop-opacity="0"/>
+      <stop offset="1" stop-color="#BAE6FD"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#sky)"/>
+  <circle cx="24" cy="7" r="1.1" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="6" cy="26" r="0.8" fill="#FFFFFF" opacity="0.7"/>
+  <path d="M5 3 L13 11" stroke="url(#meteor)" stroke-width="1.6" stroke-linecap="round"/>
+  <rect width="32" height="32" rx="8" fill="white" fill-opacity="0.06"/>
+  <path d="M9.5 22 L16 9 L22.5 22 M12 17 H20"
+        stroke="#00D4AA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
+```
+
+### 实现要点（铁律）
+
+- **放 `src/app/icon.svg`**：Next.js 13.3+ App Router 自动注入图标 `<link>`，零配置。**不要**手写 `<link>`、不要放 `public/favicon.ico`（App Router 优先用 `app/icon.*`）。
+- **纯 SVG，零外链**：内联 `linearGradient`，无字体/图片外部依赖（呼应"CSS 变量兜底无外部资源"铁律）。体积 < 1KB。
+- **与设计语言同源**：深空夜底（`#05070F`→`#0B1426`，即 `--sky-bg`）+ 流星（accent 渐变拖尾）+ 星点 + 半透明白覆盖（`fill-opacity="0.06"`，呼应液态玻璃高光）+ 极光"A"（Aurora 首字母，accent 描边）。**favicon 是"缩小到 32px 的整页缩影"**。
+- **随主题色换色（可选）**：默认 Mint 流星；若用户指定品牌色，把流星与"A"字母的 `#00D4AA`/`#BAE6FD` 换成该主题色及其辉光色。底色始终深空（夜空是 ultra-design-pro 的身份底）。
+- **`apple-icon.png` 可选**：iOS 主屏需 PNG，可同 SVG 渲染成 `src/app/apple-icon.png`（180×180）；非必需。
+
+### 验收
+
+- [ ] `src/app/icon.svg` 存在，`GET /icon` 200、无 `/favicon.ico` 404？
+- [ ] favicon 是深空夜底 + 流星，与流星夜空语言一致，非随机占位图？
+
+---
+
 ## Motion 动效体系
 
 全 DOM Motion（motion/react + framer-motion），无 3D。
@@ -376,6 +427,35 @@ interface Particle {
 | 交互 | hover 浮起(`whileHover={{ y: -4 }}`)、按钮按下 scale |
 | 过渡 | 主题/色切换材质 lerp 感（CSS 变量天然过渡 + transition） |
 | 弹窗 | Radix Popover/Dropdown + `AnimatePresence` |
+
+> **装饰性常驻光效铁律**：`SheenSweep`（玻璃边缘流光）是**纯装饰**动效，**全页仅顶栏 1 处**（顶栏 `sticky` 贯穿全页、不承载密集数据，是整页"生命体征"锚点）。内容卡（主图/KPI/表格/告警/时间线）承载**必须静读**的数据，**严禁**装饰性常驻光效，只用状态类（在线/告警脉冲/异常呼吸）与触发类（hover/click 即现即灭）光效。流星夜空与星尘交互是 ultra-design-pro 的**身份级背景**（状态/氛围层，非前景内容卡），不受此约束——它们服务于"夜空有生命"的设定，是氛围而非与数据争抢注意力的装饰。
+
+> **流光亮度铁律（深色夜空关键 · 含装饰常驻 + hover 触发两类）**：**任何**流光/sheen sweep——无论是顶栏装饰性常驻 `SheenSweep`，还是内容卡（KPI 卡/主图卡等）hover 触发的一过性流光——颜色**必须**用 `var(--glass-highlight)`（主题自适应：暗色 `rgba(255,255,255,0.18)` 含蓄 / 亮色 `rgba(255,255,255,0.85)` 明亮），**禁止**写死 `rgba(255,255,255,0.6)` **或** `rgba(var(--glass-sheen-rgb), 0.5)`（后者 = 暗色下 0.5 半透明白，同样过亮刺眼）。理由：ultra-design-pro 默认暗色 + 流星夜空背景，写死亮白流光（无论 `0.6` 还是 `0.5` 量级）在深色星空上**过亮刺眼、喧宾夺主**，压到 0.18 才含蓄优雅（对齐 ultra-design 亮度）；切到亮色主题时同一变量自动抬到 0.85 显眼可见——一条变量管两种主题、管两类流光。`--glass-highlight` 放在 `@layer base` 的明/暗作用域里，**不参与** `--glass-alpha` 联动（流光亮度只随主题明暗，不随玻璃浓淡）。
+>
+> ⚠️ **反例（bug 复现）**：KPI 卡 hover 触发的 sheen sweep 写成 `linear-gradient(90deg, transparent, rgba(var(--glass-sheen-rgb), 0.5) 50%, transparent)` → 暗色下 0.5 半透明白在深色卡片上过亮，"卡片被选中时高光太亮"。正确：同 ultra-design 的 KPI 卡，用 `var(--glass-highlight)`（暗色 0.18）。
+
+```tsx
+// src/components/motion/primitives.tsx —— 顶栏专用装饰性常驻流光（全页仅 1 处，内容卡禁用）
+import { motion, useReducedMotion } from 'motion/react'
+
+export function SheenSweep({ className, duration = 5 }: { className?: string; duration?: number }) {
+  const reduce = useReducedMotion();
+  if (reduce) return null;   // prefers-reduced-motion 降级：关掉装饰流光
+  return (
+    <span aria-hidden className={`pointer-events-none absolute inset-y-0 left-0 w-2/5 ${className ?? ''}`}
+      style={{
+        // ★ 主题自适应高光：暗色 0.18 含蓄 / 亮色 0.85 明亮（var(--glass-highlight)），不写死亮白
+        background: 'linear-gradient(90deg, transparent, var(--glass-highlight) 50%, transparent)',
+        transform: 'skewX(-18deg)',
+      }}>
+      <motion.span className="block h-full w-full"
+        style={{ background: 'linear-gradient(90deg, transparent, var(--glass-highlight) 50%, transparent)' }}
+        animate={{ x: ['-120%', '320%'], opacity: [0, 0.7, 0.7, 0] }}
+        transition={{ duration, repeat: Infinity, ease: 'easeInOut', times: [0, 0.2, 0.8, 1] }} />
+    </span>
+  );
+}
+```
 
 ```css
 /* 全局 transition 走 ease 变量 */
@@ -436,12 +516,18 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 **主题系统**
 - [ ] 双维度(明暗×7色)，Zustand → data-* 属性 → CSS 变量，默认暗色？
 
+**装饰性常驻光效**
+- [ ] `SheenSweep`（玻璃边缘流光）**全页仅顶栏 1 处**；内容卡（主图/KPI/表格/告警/时间线）无装饰性常驻光效，只有状态类/触发类？（流星夜空/星尘作为背景氛围层不受此约束）
+- [ ] `SheenSweep` 流光颜色用 `var(--glass-highlight)`（暗 0.18 / 亮 0.85 自适应），**未写死** `rgba(255,255,255,0.6)`？（深色夜空流光过亮 = 扣分项）
+- [ ] **所有流光/sheen sweep**（顶栏装饰常驻 + 内容卡 hover 触发）颜色都走 `var(--glass-highlight)`，**未写死** `rgba(var(--glass-sheen-rgb), 0.5)` 或 `rgba(255,255,255,0.6)`？（内容卡"被选中时高光太亮"是暗色下用 `--glass-sheen-rgb` 写死 0.5 的典型 bug）
+- [ ] `--glass-highlight` 在 base 层明/暗作用域定义、**不参与** `--glass-alpha` 联动？
+
 ---
 
 ## 设计准则
 
 1. **液态玻璃优先**：UI 控件全是 `.glass`，四层叠加出质感，非单一 blur。
-2. **一强多弱**：主面板用 `.glass`，弹窗/强调用 `.glass-strong`，其余弱化。
+2. **一强多弱（装饰性常驻光效仅顶栏）**：`SheenSweep` 边缘流光全页仅放顶栏 1 处；内容卡承载必须静读的数据，只用状态类（在线/告警脉冲）与触发类（hover/click）光效；强感知来自编排节奏，不是堆砌。
 3. **强调色点睛**：accent 只用在 CTA/选中态/数据高亮，不大面积铺。
 4. **颜色走变量/store**：绝不在组件里写死色值，全读 CSS 变量或 Zustand。
 5. **视觉优先 + 流畅**：不删视觉换流畅，靠工程封顶。
@@ -464,4 +550,7 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 | 每粒子一个 timer | 单 rAF loop + 粒子池复用 |
 | 引入 Three.js 做玻璃/流星 | 纯 2D DOM+CSS+Canvas，零 3D 依赖 |
 | 星尘拖尾挡交互 | `pointer-events:none` + 顶层 z-index |
+| 在内容卡（主图/KPI/表格）上放装饰性常驻光效（如 SheenSweep） | 装饰性常驻光效**全页仅顶栏 1 处**；内容卡承载必须静读的数据，只配状态类（在线/告警脉冲）与触发类（hover/click 即现即灭）；流星夜空/星尘作为背景氛围层不受此约束 |
+| SheenSweep 流光写死亮白 `rgba(255,255,255,0.6)` | 用 `var(--glass-highlight)`（暗色 0.18 含蓄 / 亮色 0.85 明亮）随主题明暗自适应——深色流星夜空上亮白流光过亮刺眼 |
+| 内容卡 hover 触发的 sheen sweep 写死 `rgba(var(--glass-sheen-rgb), 0.5)`（= 暗色 0.5 半透明白） | 同样改用 `var(--glass-highlight)`（暗色 0.18）。"卡片被选中/悬停时高光太亮"就是暗色下把白色 sheen 写死 0.4~0.5 的典型 bug——半透明白在深色玻璃上比顶栏流光更扎眼 |
 ```
