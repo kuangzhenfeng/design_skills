@@ -1,10 +1,10 @@
 ---
 name: ultra-design
-description: 当需要构建高质量、极具设计感的前端界面（网页、落地页、Dashboard、组件、可视化工具、应用 UI 等）时使用。输出 **Liquid Glass（液态玻璃）** 设计语言 — 半透明晶体面板材质、动态边缘高光、镜面反射、流动氛围背景。**性能铁律：氛围层零 `filter: blur()`（巨型色斑位图逐像素采样、最吃 GPU，氛围改单层 radial-gradient mesh）；玻璃层用弱 `backdrop-filter: blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点纹理（磨砂颗粒感不靠大 blur），随小屏 / `prefers-reduced-motion` 降级为纯 tint；绝对禁止强 `blur(20px+)`。** 玻璃的"透"由半透 tint + 噪点磨砂层承载，液态质感由菲涅尔折射高光（描边 + inset 白光 + sheen + 浮起投影）保证。**承诺一套完整的 Motion 动效体系**：加载（转圈/骨架流光/进度流光/按钮 loading/数字滚动）、状态（心跳脉冲/呼吸/在线光晕/连接流光）、入场（错落浮现/缩放聚焦/缩放弹出/翻转）、滚动（滚动显现/视差/进度条）、指针（磁吸/3D 倾斜/涟漪/光泽跟随）、过渡（FLIP/layoutId 滑动/折叠展开/AnimatePresence/圆形揭露换肤）、灵动点缀（边缘流光/光泽划过/脉冲环/悬停浮起/抖动/光标闪烁/图标弹跳/下划线生长/徽章弹现/光晕脉冲）。默认技术栈 TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion，输出生产级、可直接运行的 TSX 代码。视觉质感优先：玻璃质感、氛围流动、阴影过渡一律完整保留，只保留温和的合成层性能建议，不为性能删减任何视觉与动效。默认亮色 + 薄荷绿（#00D4AA）主题，内置亮/暗双主题切换与多主题色切换（两个维度正交、任意组合）。告别通用 AI 审美。
+description: 当需要构建高质量、极具设计感的前端界面（网页、落地页、Dashboard、组件、可视化工具、应用 UI 等）时使用。输出 **Liquid Glass（液态玻璃）** 设计语言 — 半透明晶体面板材质、动态边缘高光、镜面反射、流动氛围背景。**性能铁律：氛围层零 `filter: blur()`（巨型色斑位图逐像素采样、最吃 GPU，氛围改单层 radial-gradient mesh）；玻璃层用弱 `backdrop-filter: blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点纹理（磨砂颗粒感不靠大 blur），随小屏 / 「减少动效」开关降级为纯 tint（**不读系统 `prefers-reduced-motion`**——各机偏好不一、跨机效果不可控，改由应用内显式开关统一控制）；绝对禁止强 `blur(20px+)`。** 玻璃的"透"由半透 tint + 噪点磨砂层承载，液态质感由菲涅尔折射高光（描边 + inset 白光 + sheen + 浮起投影）保证。**承诺一套完整的 Motion 动效体系**：加载（转圈/骨架流光/进度流光/按钮 loading/数字滚动）、状态（心跳脉冲/呼吸/在线光晕/连接流光）、入场（错落浮现/缩放聚焦/缩放弹出/翻转）、滚动（滚动显现/视差/进度条）、指针（磁吸/3D 倾斜/涟漪/光泽跟随）、过渡（FLIP/layoutId 滑动/折叠展开/AnimatePresence/圆形揭露换肤）、灵动点缀（边缘流光/光泽划过/脉冲环/悬停浮起/抖动/光标闪烁/图标弹跳/下划线生长/徽章弹现/光晕脉冲）。默认技术栈 TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion，输出生产级、可直接运行的 TSX 代码。视觉质感优先：玻璃质感、氛围流动、阴影过渡一律完整保留，只保留温和的合成层性能建议，不为性能删减任何视觉与动效。默认亮色 + 薄荷绿（#00D4AA）主题，内置亮/暗双主题切换与多主题色切换（两个维度正交、任意组合）。告别通用 AI 审美。
 ---
 
 # Ultra Design — Liquid Glass 设计系统（Motion 驱动）
-
+ 
 ## 概述
 
 Ultra Design 是一套基于 **Liquid Glass（液态玻璃）** 设计语言的前端规范，技术栈默认 **TypeScript + React + Next.js + Tailwind CSS + shadcn/ui + Radix + Motion**。
@@ -264,7 +264,7 @@ Next.js App Router 默认无 favicon，浏览器请求 `/favicon.ico` 必然 404
 
 ## 晶体玻璃材质配方（核心 · 弱 blur + 噪点纹理）
 
-**性能铁律：本设计系统全篇禁止 `filter: blur()`（氛围球那类巨型位图逐像素采样），氛围层只能用单层 radial-gradient mesh。玻璃层允许 `backdrop-filter`，但**统一锁定弱档 `blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点纹理**——磨砂颗粒感由噪点贴图（静态烘焙、非每帧采样）提供，blur 只给极轻折射，半径再小开销也极低；并随小屏 / `prefers-reduced-motion` 降级为纯 tint。**绝对禁止强 `blur()`**（半径 ≥ 20px、大面积铺开），那才是这套语言里真正吃 GPU 的开销——半径翻倍开销四倍涨（R²），是 blur 开销模型里最大的黑洞。**
+**性能铁律：本设计系统全篇禁止 `filter: blur()`（氛围球那类巨型位图逐像素采样），氛围层只能用单层 radial-gradient mesh。玻璃层允许 `backdrop-filter`，但**统一锁定弱档 `blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点纹理**——磨砂颗粒感由噪点贴图（静态烘焙、非每帧采样）提供，blur 只给极轻折射，半径再小开销也极低；并随小屏 / 「减少动效」开关降级为纯 tint（**不读系统 `prefers-reduced-motion`**——各机偏好不一、跨机效果不可控，统一改由应用内显式开关控制，详见「减少动效开关」章）。**绝对禁止强 `blur()`**（半径 ≥ 20px、大面积铺开），那才是这套语言里真正吃 GPU 的开销——半径翻倍开销四倍涨（R²），是 blur 开销模型里最大的黑洞。**
 
 玻璃的"透"与"液"由 **半透 tint（alpha 承载通透）+ 弱 `backdrop-filter: blur(4px)`（极轻折射）+ 静态噪点纹理（磨砂颗粒感，非每帧开销）+ 边缘高光（描边 + inset 白光 + sheen 伪元素）+ 浮起投影（多层 box-shadow）** 叠加实现——真液态质感，开销仅小半径折射 + 一次烘焙噪点 + 常规定位 + 阴影。
 
@@ -322,12 +322,22 @@ Next.js App Router 默认无 favicon，浏览器请求 `/favicon.ico` 必然 404
 }
 
 /* ---- 降级：弱 backdrop-filter + 噪点在低端场景退回纯 tint，质感不丢 ---- */
-/* 小屏（移动端 backdrop-filter 相对昂贵）与减少动效/透明偏好 → 关掉弱折射与噪点，
-   玻璃仍有 tint + 边缘高光 + 投影，退回零 blur 版的纯 tint 玻璃 */
-@media (max-width: 768px), (prefers-reduced-motion), (prefers-reduced-transparency) {
+/* 小屏（移动端 backdrop-filter 相对昂贵）→ 关掉弱折射与噪点，
+   玻璃仍有 tint + 边缘高光 + 投影，退回零 blur 版的纯 tint 玻璃。
+   注：减少动效不在此媒体查询里读 prefers-reduced-motion（各机偏好不一、跨机
+   效果不可控）——动效与玻璃降级统一由应用内「减少动效」开关（<html data-reduce-motion="on">）
+   显式控制，见「减少动效开关」章。 */
+@media (max-width: 768px) {
   .glass, .glass-strong, .glass-soft { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .glass::after, .glass-strong::after, .glass-soft::after { display: none; }
 }
+/* 减少动效开关（默认 off）：开启后与 768px 同样的纯 tint 降级，但由用户显式控制、跨机一致 */
+:root[data-reduce-motion="on"] .glass,
+:root[data-reduce-motion="on"] .glass-strong,
+:root[data-reduce-motion="on"] .glass-soft { -webkit-backdrop-filter: none; backdrop-filter: none; }
+:root[data-reduce-motion="on"] .glass::after,
+:root[data-reduce-motion="on"] .glass-strong::after,
+:root[data-reduce-motion="on"] .glass-soft::after { display: none; }
 
 /* 顶部镜面高光（specular sheen）：区分"真液态玻璃"与"死板半透明"的关键 */
 .glass-sheen { position: relative; }
@@ -783,13 +793,83 @@ export function setAccent(a: string) {
 - **ARIA**：图标按钮 `aria-label`；通知 `role="status"`/`aria-live`；下拉/抽屉 `aria-expanded`/`aria-controls`（shadcn/Radix 已内置）。
 - **键盘可达 + 焦点可见**：`:focus-visible` ring 全覆盖（`outline: 2px solid var(--accent); outline-offset: 2px`）。
 - **对比度**：正文 ≥ 4.5:1，大字 ≥ 3:1；玻璃上文字注意模糊后仍达标。
-- **`prefers-reduced-motion`**：用 Motion 的 `useReducedMotion()`，开启时把入场/循环降为极轻或瞬时（保留功能性反馈，不删除）。
+- **减少动效**：**不读系统 `prefers-reduced-motion`**（各机系统偏好设置千差万别、开关位置隐蔽，跨机器/跨用户看到的效果不可控，无法保证一致体验）。改为提供一个**应用内的「减少动效」开关**（默认关），用户显式开启才降级——效果在所有机器上完全一致。详见下「减少动效开关」章。
+
+---
+
+## 减少动效开关（默认关 · 不读系统偏好）
+
+### 为什么不用 `prefers-reduced-motion`
+
+`prefers-reduced-motion` 是读操作系统级「减少动态效果」开关的媒体查询，存在三个不可控问题：
+
+1. **跨机不一致**：不同 OS（macOS/Windows/iOS/Android）的该开关位置、默认值、联动范围都不一样，部分老版本或定制 ROM 行为各异——同一份代码在不同机器上动效时有时无，演示与交付效果无法保证。
+2. **用户无感**：系统级开关多数用户从不知道、也不会主动设置，等于这个降级几乎永远不触发；真需要降级的用户（晕动症、低性能机）反而够不到它。
+3. **与其它开关耦合**：系统「减少动效」常同时关闭过渡、滚动惯性、窗口动画，与本设计系统的「只压运动类动效、保留状态反馈」诉求不对齐。
+
+因此本系统**用应用内显式开关替代**：`<html data-reduce-motion="on">`，由用户在 UI 里点击切换，跨所有机器效果完全一致。
+
+### 开关机制（Zustand + `<html>` 属性 + localStorage）
+
+```ts
+// lib/motion.ts —— 减少动效开关（默认 off）
+export function setReduceMotion(on: boolean) {
+  document.documentElement.setAttribute('data-reduce-motion', on ? 'on' : 'off')
+  localStorage.setItem('glass-reduce-motion', on ? 'on' : 'off')
+}
+// hydrate 时从 localStorage 还原（首帧前 inline 脚本同步设好，防闪烁）
+```
 
 ```tsx
-import { useReducedMotion } from 'motion/react'
-const reduce = useReducedMotion()
-// reduce 为真时：duration 调小、repeat 循环降为单次、视差/磁吸幅度归零
+// 切换面板里加一个开关（与明暗/主题色并列）
+<button
+  role="switch"
+  aria-checked={reduceMotion}
+  aria-label="减少动效（压低入场与循环动画幅度）"
+  onClick={() => setReduceMotion(!reduceMotion)}
+  className={reduceMotion ? 'reduce-switch on' : 'reduce-switch'}
+>
+  <span className="reduce-thumb" />
+</button>
+<span className="text-xs text-text-tertiary">{reduceMotion ? '动效已减弱' : '动效完整'}</span>
 ```
+
+### 降级行为（CSS + Motion 双侧）
+
+**CSS 侧**（玻璃降级，见材质章）：`<html data-reduce-motion="on">` 下玻璃关 `backdrop-filter` 与噪点层、退回纯 tint（与移动端同款降级）。
+
+**Motion 侧**（运动类动效降级）：所有运动类动效读 `data-reduce-motion` 属性，开启时把入场/循环降为极轻或瞬时，**保留功能性反馈不删除**（状态点、聚焦环、加载指示仍要有视觉反馈，只是幅度极小或瞬时落定）。
+
+```tsx
+'use client'
+import { useEffect, useState } from 'motion/react' // 或自管订阅 data-reduce-motion 属性
+
+// 读取开关（订阅 <html data-reduce-motion>，而非 useReducedMotion()）
+function useReduceMotion() {
+  const [on, setOn] = useState(false)
+  useEffect(() => {
+    const el = document.documentElement
+    const sync = () => setOn(el.getAttribute('data-reduce-motion') === 'on')
+    sync()
+    const ob = new MutationObserver(sync)
+    ob.observe(el, { attributes: true, attributeFilter: ['data-reduce-motion'] })
+    return () => ob.disconnect()
+  }, [])
+  return on
+}
+// reduce 为真时：duration 调小（如 0.7→0.2）、repeat 循环降为单次、视差/磁吸幅度归零、
+// 装饰性常驻流光（sheen-sweep）return null；状态类（pulse/glow）保留但幅度减半
+```
+
+> **铁律**：组件里**不要用** Motion 的 `useReducedMotion()`（它读的是系统 `prefers-reduced-motion`，跨机不一致）——一律用上面的 `useReduceMotion()` 订阅 `<html data-reduce-motion>` 属性，与开关、CSS 降级同源。
+
+### 减少动效自检子清单
+
+- [ ] 提供「减少动效」开关，**默认关**（`<html>` 默认无 `data-reduce-motion="on"`）？
+- [ ] 开关经 `setReduceMotion` → `document.documentElement.setAttribute('data-reduce-motion', ...)` + localStorage 持久化，有 `role="switch"` + `aria-checked` + 清晰态标签？
+- [ ] **全篇不读系统 `prefers-reduced-motion`**（无 `@media (prefers-reduced-motion)`、无 `useReducedMotion()`）？运动类动效一律订阅 `data-reduce-motion` 属性？
+- [ ] 开启后：入场/循环动效降为极轻或瞬时、视差/磁吸幅度归零、装饰性常驻流光关闭，但**功能性反馈保留**（状态点、聚焦环、加载仍有视觉反馈）？
+- [ ] 玻璃在 `data-reduce-motion="on"` 下退回纯 tint（关 backdrop-filter + 噪点）？
 
 ---
 
@@ -807,8 +887,8 @@ const reduce = useReducedMotion()
 1. **铺氛围背景**：先写 `.aura` 色斑层与底色——玻璃显形的舞台。色斑取 `--aura-1~4`，允许缓慢漂移。
 2. **注入主题变量**：完整复制 CSS 变量（明暗基础层 + 7 色相层 + 派生色）到 `globals.css`，根节点 `<html data-theme="light" data-accent="mint">`。
 3. **搭玻璃组件**：导航 `.glass-strong` + 胶囊；卡片 `.glass.glass-sheen`；按钮/输入框/标签取对应玻璃模板（同样享有晶体面板质感）。**强调色派生值用 `var(--accent)` / `rgba(var(--accent-rgb), α)`，禁止写死色值。**
-4. **加主题切换面板**：明暗 + 主题色均可用户切换，绑定 `setTheme`/`setAccent` 并刷新激活态。
-5. **加生命（七大维度 Motion 动效）**：① 加载（按场景 6 种变体）② 状态（pulse/breathe/glow/stream/shake）③ 入场（`whileInView` 错落，焦点先行）④ 滚动（reveal/视差/进度条）⑤ 指针（magnetic/tilt/ripple/sheen-follow，用 `useSpring`）⑥ 过渡（`AnimatePresence`/`layoutId`/grid 折叠/圆形揭露）⑦ 灵动（sheen-sweep 常驻主角 + 触发型点缀）。每屏一强多弱，同源时序。
+4. **加主题切换面板**：明暗 + 主题色均可用户切换，绑定 `setTheme`/`setAccent` 并刷新激活态；并加「减少动效」开关（默认关，绑定 `setReduceMotion`）。
+5. **加生命（七大维度 Motion 动效）**：① 加载（按场景 6 种变体）② 状态（pulse/breathe/glow/stream/shake）③ 入场（`whileInView` 错落，焦点先行）④ 滚动（reveal/视差/进度条）⑤ 指针（magnetic/tilt/ripple/sheen-follow，用 `useSpring`）⑥ 过渡（`AnimatePresence`/`layoutId`/grid 折叠/圆形揭露）⑦ 灵动（sheen-sweep 常驻主角 + 触发型点缀）。每屏一强多弱，同源时序。**运动类动效一律订阅 `data-reduce-motion` 开关（不读系统 `prefers-reduced-motion`）。**
 6. **自检**：见下清单。
 
 ---
@@ -816,7 +896,7 @@ const reduce = useReducedMotion()
 ## 自检清单
 
 - [ ] 主结构玻璃元素有半透 tint（透射）+ 边缘高光（描边 + inset 白色阴影 + 镜面 sheen）+ 浮起投影，质感三要素齐全？
-- [ ] **氛围层零 `filter: blur()`，玻璃层只有弱 `backdrop-filter: blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点贴图（磨砂颗粒不靠大 blur，强 `blur(20px+)` 与 `filter:blur()` 球一律禁止）？小屏 / `prefers-reduced-motion` 下玻璃降级为纯 tint（关 blur + 关噪点）？**
+- [ ] **氛围层零 `filter: blur()`，玻璃层只有弱 `backdrop-filter: blur(4px) saturate(1.5)` + 静态 feTurbulence 噪点贴图（磨砂颗粒不靠大 blur，强 `blur(20px+)` 与 `filter:blur()` 球一律禁止）？小屏 / 「减少动效」开关下玻璃降级为纯 tint（关 blur + 关噪点）？
 - [ ] 按钮/输入框/标签**同样享有晶体面板质感**，未为性能降级为纯 tint？
 - [ ] 背景氛围层是**单层 radial-gradient mesh**（非 `filter:blur()` 球），色斑取 `--aura-1~4` 且**允许缓慢流动**？
 - [ ] 字体栈使用 Geist / Inter + 中文系统字体，数字 `tabular-nums`？
@@ -828,7 +908,7 @@ const reduce = useReducedMotion()
 - [ ] hover 浮起 + 阴影可平滑过渡；入场 `whileInView` + `viewport={{ once: true }}` 落定？
 - [ ] 装饰性常驻光效（边缘流光 sheen-sweep）**全页仅顶栏 1 处**；内容卡（主图/KPI/表格/告警/时间线）无装饰性常驻光效，只有状态类/触发类？
 - [ ] 技术栈 = TS + React + Next.js + Tailwind + shadcn/ui + Radix + Motion；交互元素 5 态齐全，`focus-visible` ring 清晰？
-- [ ] 语义化标签 + ARIA + 键盘可达 + 对比度达标；`useReducedMotion()` 兜底？
+- [ ] 语义化标签 + ARIA + 键盘可达 + 对比度达标；「减少动效」开关（默认关）兜底，**不读系统 `prefers-reduced-motion`**？
 - [ ] 三档响应式合理，移动端抽屉可用，无横向滚动？
 
 ---
@@ -851,7 +931,8 @@ const reduce = useReducedMotion()
 | 只做一种加载动效（到处同一个 spinner） | 按场景 6 种变体：按钮 loading/转圈/双圈/骨架屏/三点跳动/进度流光/不定进度条 |
 | 状态变化无视觉反馈 | pulse/breathe/online-glow/connect-stream/shake，每个状态对应一种 |
 | 为性能给按钮/输入框砍掉晶体面板质感 | 半透 tint + 高光 + 投影是高级感来源，所有元素同等享有；流畅靠合成层 + `useSpring`，不靠降级 |
-| 给氛围色斑加 `filter: blur(80px)`，或给玻璃/遮罩加强 `backdrop-filter: blur(≥20px)` | **氛围球是大半径逐像素采样、最吃 GPU**——氛围改单层 radial-gradient mesh（渐变本就柔和）。**玻璃层用弱 `backdrop-filter: blur(4px) saturate(1.5)` + 噪点贴图**（磨砂颗粒感由静态噪点提供、不靠大 blur，随小屏/`reduced-motion` 降级）；要禁的是强 `blur(20px+)` 与全屏遮罩模糊，那才是面积×半径²暴涨的性能黑洞 |
+| 给氛围色斑加 `filter: blur(80px)`，或给玻璃/遮罩加强 `backdrop-filter: blur(≥20px)` | **氛围球是大半径逐像素采样、最吃 GPU**——氛围改单层 radial-gradient mesh（渐变本就柔和）。**玻璃层用弱 `backdrop-filter: blur(4px) saturate(1.5)` + 噪点贴图**（磨砂颗粒感由静态噪点提供、不靠大 blur，随小屏/「减少动效」开关降级）；要禁的是强 `blur(20px+)` 与全屏遮罩模糊，那才是面积×半径²暴涨的性能黑洞 |
+| 用 `@media (prefers-reduced-motion)` / `useReducedMotion()` 做动效降级 | 各机系统偏好不一、跨机效果不可控——改用应用内「减少动效」开关（`<html data-reduce-motion="on">`），用户显式切换、所有机器效果一致 |
 | 入场/聚焦用 `filter: blur()` 做焦点模糊 | blur 动画逐帧采样，开销与背景球同级；焦点感改用 `scale` 收紧 + `opacity` 渐显 |
 | 砍掉氛围色斑漂移变成静态背景 | 缓慢漂移（≥20s，只动整层 transform）是"活"的来源，常驻安全，保留 |
 | hover 阴影强制瞬时切换（不过渡） | 少量元素的阴影过渡可平滑（Motion 调度），立体感更自然 |

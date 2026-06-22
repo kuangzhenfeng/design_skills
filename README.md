@@ -59,7 +59,7 @@ cd benchmark-temp && npm run start   # http://localhost:3114/
 ├── .agents/skills -> ../.claude/skills  # 软链，兼容 agents 工具
 ├── skills_for_benchmark/                # 待测 skill 源文件（本地文件型，subagent 直接 Read）
 │   ├── ultra-design/                    # Liquid Glass 设计系统（弱 blur(4px) + 静态 feTurbulence 噪点磨砂层，Motion 驱动，七维动效体系，双维度正交主题）
-│   ├── ultra-design-pro/                # 纯 2D 液态玻璃（流星夜空 + 可调玻璃透明度 + 鼠标星尘/点击爆裂交互 + 弱 blur+噪点磨砂默认/效果优先开关；零 3D 依赖）
+│   ├── ultra-design-pro/                # 纯 2D 液态玻璃（流星夜空 + 可调玻璃透明度 + 鼠标星尘/点击爆裂交互 + 弱 blur+噪点磨砂默认/效果优先开关 + 减少动效开关[默认关·不读系统 prefers-reduced-motion]；零 3D 依赖）
 │   ├── ui-ux-pro-max/
 │   └── web-design-guidelines/
 ├── benchmark-run/                       # ⚙️ 运行产物（已 gitignore，本地生成，不入库）
@@ -91,7 +91,7 @@ cd benchmark-temp && npm run start   # http://localhost:3114/
 | 排名 | Skill | 加权总分 | 可运行 | 来源 |
 |------|-------|:-------:|:------:|------|
 | 🥇 1 | **ultra-design**（弱 blur + 噪点磨砂） | **9.0 / 10** | ✅ | 本地 `skills_for_benchmark/ultra-design/SKILL.md` |
-| 🥇 1 | **ultra-design-pro**（纯 2D · 流星夜空液态玻璃 · 可调透明度 · 弱 blur+噪点磨砂默认/效果优先开关） | **9.0 / 10** | ✅ | 本地 `skills_for_benchmark/ultra-design-pro/SKILL.md` |
+| 🥇 1 | **ultra-design-pro**（纯 2D · 流星夜空液态玻璃 · 可调透明度 · 弱 blur+噪点磨砂默认/效果优先开关 · 减少动效开关[默认关·不读系统 prefers-reduced-motion]） | **9.0 / 10** | ✅ | 本地 `skills_for_benchmark/ultra-design-pro/SKILL.md` |
 | 🥉 3 | **ui-ux-pro-max** | 8.5 / 10 | ✅ | 本地 |
 | 3 | **web-design-guidelines** | 8.5 / 10 | ✅ | 本地 |
 | 3 | **frontend-design**（插件对照） | 8.5 / 10 | ✅ | 插件 `frontend-design:frontend-design` |

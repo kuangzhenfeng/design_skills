@@ -1,6 +1,6 @@
 ---
 name: ultra-design-pro
-description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风格的前端界面（Dashboard、落地页、SaaS 控制台、可视化看板、品牌门户等）时使用。技术栈：TypeScript + React + Next.js (App Router) + Tailwind CSS + shadcn/ui + Radix + Motion (motion/react + framer-motion) + Zustand。四大取向 —— ① 液态玻璃（首要准则）：所有面板/卡片/弹窗用 `.glass` / `.glass-strong` DOM 玻璃 = backdrop-filter 弱 blur+saturate 极轻折射 + 半透底色 + 菲涅尔顶部高光(sheen) + 边缘色散(rim) + 浮起投影 + 静态 feTurbulence 噪点磨砂层（磨砂颗粒感不靠大 blur），纯 CSS 实现真液态质感，零 3D 库。② 流星夜空 + 星尘交互背景：body 暗色夜空渐变兜底，Canvas 烘焙静态星空底(280 星点不每帧重绘)，DOM/CSS 流星群以 keyframes 沿自身轴线斜飞(头核+渐隐拖尾+glow，同时可见≤6 条、偶发优雅、速度舒缓 3~6s、随主题色换色)；鼠标移动 spawn 星尘/闪沙拖尾(粒子池+rAF)、点击径向爆裂闪光沙，全程 pointer-events:none 顶层不挡交互。③ 可调玻璃透明度（独家）：单一 CSS 变量 `--glass-alpha`(0~1.4)经 Zustand 滑块同时驱动 8+ 层 —— 背景色/饱和度/边框/高光/色散/投影全联动，clamp 非零下限保证"任何时候都是液态玻璃、只调浓重度"，最低档真透出后方流星星空。④ 效果优先开关（默认关）：默认（blur 封顶 4px + saturate 1.5 + 噪点磨砂层，主流机流畅不掉帧，磨砂颗粒由静态噪点提供不靠大 blur）；Topbar 开启效果优先(`[data-effect="on"]`)后——blur 随 `--glass-alpha` 在 2~28px 浮动、无噪点，靠大半径 backdrop-filter 磨砂，截图/演示最出彩但低端机可能掉帧。视觉优先 + 主流机流畅（DPR≤2、粒子池封顶、合成层动画、流星可见封顶、Canvas 烘焙）。内置亮/暗双主题 + 7 主题色（默认暗色——夜空流星暗色最出彩；亮色流星=主题色偏灰 color-mix，绝不用白流星）。生成生产级、可直接运行的 TSX/CSS 代码，告别平庸毛玻璃。
+description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风格的前端界面（Dashboard、落地页、SaaS 控制台、可视化看板、品牌门户等）时使用。技术栈：TypeScript + React + Next.js (App Router) + Tailwind CSS + shadcn/ui + Radix + Motion (motion/react + framer-motion) + Zustand。五大取向 —— ① 液态玻璃（首要准则）：所有面板/卡片/弹窗用 `.glass` / `.glass-strong` DOM 玻璃 = backdrop-filter 弱 blur+saturate 极轻折射 + 半透底色 + 菲涅尔顶部高光(sheen) + 边缘色散(rim) + 浮起投影 + 静态 feTurbulence 噪点磨砂层（磨砂颗粒感不靠大 blur），纯 CSS 实现真液态质感，零 3D 库。② 流星夜空 + 星尘交互背景：body 暗色夜空渐变兜底，Canvas 烘焙静态星空底(280 星点不每帧重绘)，DOM/CSS 流星群以 keyframes 沿自身轴线斜飞(头核+渐隐拖尾+glow，同时可见≤6 条、偶发优雅、速度舒缓 3~6s、随主题色换色)；鼠标移动 spawn 星尘/闪沙拖尾(粒子池+rAF)、点击径向爆裂闪光沙，全程 pointer-events:none 顶层不挡交互。③ 可调玻璃透明度（独家）：单一 CSS 变量 `--glass-alpha`(0~1.4)经 Zustand 滑块同时驱动 8+ 层 —— 背景色/饱和度/边框/高光/色散/投影全联动，clamp 非零下限保证"任何时候都是液态玻璃、只调浓重度"，最低档真透出后方流星星空。④ 效果优先开关（默认关）：默认（blur 封顶 4px + saturate 1.5 + 噪点磨砂层，主流机流畅不掉帧，磨砂颗粒由静态噪点提供不靠大 blur）；Topbar 开启效果优先(`[data-effect="on"]`)后——blur 随 `--glass-alpha` 在 2~28px 浮动、无噪点，靠大半径 backdrop-filter 磨砂，截图/演示最出彩但低端机可能掉帧。⑤ 减少动效开关（默认关）：**不读系统 `prefers-reduced-motion`**（各机偏好不一、跨机效果不可控），改由应用内显式开关(`<html data-reduce-motion="on">`)统一控制——开启后入场/循环/星尘/装饰流光降级或关闭、玻璃退回纯 tint，功能性反馈保留，所有机器效果一致。视觉优先 + 主流机流畅（DPR≤2、粒子池封顶、合成层动画、流星可见封顶、Canvas 烘焙）。内置亮/暗双主题 + 7 主题色（默认暗色——夜空流星暗色最出彩；亮色流星=主题色偏灰 color-mix，绝不用白流星）。生成生产级、可直接运行的 TSX/CSS 代码，告别平庸毛玻璃。
 ---
 
 # Ultra Design Pro — 流星夜空液态玻璃设计系统（纯 2D · 可调透明度 · 星尘交互 · 弱 blur+噪点磨砂）
@@ -9,7 +9,7 @@ description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风
 
 本 skill 用于构建**纯 2D、视觉优先**的高质感前端界面。界面是**浮在流星夜空前的液态玻璃面板群**：所有 UI 控件（导航、卡片、按钮、输入框、弹窗）用 DOM `backdrop-filter` 玻璃实现，带磨砂折射 + 菲涅尔高光 + 边缘色散 + 浮起投影；背景是暗色夜空里的偶发流星群 + 烘焙星空底，鼠标移动拖出星尘、点击迸发闪光沙。一切由用户滑块控制的「玻璃浓重度」统一调节，0~1.4 平滑联动所有层。
 
-**首要准则：液态玻璃 + 流星夜空 + 可调透明度 + 效果优先开关，四者缺一不可。** 玻璃要"液态"——不是普通毛玻璃，而是有折射质感（弱 blur+saturate 极轻折射、菲涅尔 sheen 高光、色散 rim 棱线、浮起投影）+ 静态噪点磨砂层（颗粒感不靠大 blur）的半透面板；背景要"有生命"——夜空里偶发流星划过 + 静态星点垫底，绝不做死板的纯色底；透明度要"可控"——单一变量驱动 8+ 层，最低档透出星空、最高档浓重磨砂，中间全程平滑；磨砂策略要"可切换"——默认（弱 blur + 噪点，主流机流畅），效果优先开关切大 blur（截图最出彩）。
+**首要准则：液态玻璃 + 流星夜空 + 可调透明度 + 效果优先开关 + 减少动效开关，五者缺一不可。** 玻璃要"液态"——不是普通毛玻璃，而是有折射质感（弱 blur+saturate 极轻折射、菲涅尔 sheen 高光、色散 rim 棱线、浮起投影）+ 静态噪点磨砂层（颗粒感不靠大 blur）的半透面板；背景要"有生命"——夜空里偶发流星划过 + 静态星点垫底，绝不做死板的纯色底；透明度要"可控"——单一变量驱动 8+ 层，最低档透出星空、最高档浓重磨砂，中间全程平滑；磨砂策略要"可切换"——默认（弱 blur + 噪点，主流机流畅），效果优先开关切大 blur（截图最出彩）；动效要"可降级"——应用内「减少动效」开关（默认关，**不读系统 `prefers-reduced-motion`**）开启后压低运动类动效、关星尘、玻璃退回纯 tint，跨机器效果一致。
 
 ### 设计五原则
 
@@ -17,7 +17,7 @@ description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风
 2. **背景流星夜空**：后景是 DOM/CSS 流星群 + Canvas 烘焙星空底（都在 3D 场景之外，纯 2D 层）。流星 = 细长发光线段，linear-gradient 头亮尾隐拖尾 + box-shadow glow，沿自身轴线（旋转角 = 飞行方向）斜飞，同时可见 ≤6 条、偶发优雅、速度舒缓。
 3. **可调玻璃透明度**：单一 CSS 变量 `--glass-alpha`(0~1.4) 驱动所有玻璃层（背景色/saturate/边框/sheen/rim/投影）。clamp 给每层非零下限——任何时候都是玻璃（非空气），只调浓重度。最低档透出后方流星，最高档浓重磨砂。
 4. **星尘交互反馈**：鼠标移动 spawn 星尘/闪沙拖尾，点击径向爆裂闪光沙。粒子池 + 单 rAF loop，pointer-events:none 顶层不挡交互。
-5. **磨砂策略可切换（默认弱 blur+噪点）**：默认——blur 封顶 4px + saturate 1.5 + 噪点磨砂层，磨砂颗粒由静态噪点提供，主流机低端场景不掉帧；效果优先开关切大 blur——blur 随浓重度浮动(2~28px)、无噪点，靠大半径 backdrop-filter 磨砂，演示/截图最出彩。DPR≤2、粒子池封顶、流星可见封顶≤6、Canvas 星点烘焙不每帧重绘、全 transform/opacity 合成层动画。
+5. **磨砂策略 + 动效均可切换（默认弱 blur+噪点 / 动效完整）**：默认——blur 封顶 4px + saturate 1.5 + 噪点磨砂层，磨砂颗粒由静态噪点提供，主流机低端场景不掉帧；效果优先开关切大 blur——blur 随浓重度浮动(2~28px)、无噪点，靠大半径 backdrop-filter 磨砂，演示/截图最出彩；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）——开启后压低入场/循环动效、关星尘与装饰流光、玻璃退回纯 tint，功能性反馈保留。DPR≤2、粒子池封顶、流星可见封顶≤6、Canvas 星点烘焙不每帧重绘、全 transform/opacity 合成层动画。
 
 ---
 
@@ -87,17 +87,21 @@ description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风
 ```ts
 // src/store/theme.ts
 export const useThemeStore = create<ThemeState>((set, get) => ({
-  mode: 'dark', accent: 'mint', glassAlpha: 1, effectPriority: false,
+  mode: 'dark', accent: 'mint', glassAlpha: 1, effectPriority: false, reduceMotion: false,
   setMode: (mode) => { set({mode}); document.documentElement.setAttribute('data-theme', mode); localStorage.setItem('aurora-theme', mode) },
   setAccent: (accent) => { set({accent}); document.documentElement.setAttribute('data-accent', accent); localStorage.setItem('aurora-accent', accent) },
   setGlassAlpha: (n) => { /* 见下章 */ },
   setEffectPriority: (on) => { set({effectPriority: on}); document.documentElement.setAttribute('data-effect', on ? 'on' : 'off'); localStorage.setItem('aurora-effect-priority', on ? 'on' : 'off') },
   toggleEffectPriority: () => get().setEffectPriority(!get().effectPriority),
+  setReduceMotion: (on) => { set({reduceMotion: on}); document.documentElement.setAttribute('data-reduce-motion', on ? 'on' : 'off'); localStorage.setItem('aurora-reduce-motion', on ? 'on' : 'off') },
+  toggleReduceMotion: () => get().setReduceMotion(!get().reduceMotion),
   toggleMode: () => get().setMode(get().mode === 'dark' ? 'light' : 'dark'),
 }))
 ```
 
-> **关键**：主题/主题色/玻璃透明度/效果优先全部经 Zustand → `document.documentElement.setAttribute` / `style.setProperty` → CSS 变量响应。换肤是 CSS 变量天然响应，无需 JS 重渲染。`<html>` 预置 inline 脚本在首帧前设好 `data-theme`/`data-accent`/`data-effect`，防闪烁。
+> **关键**：主题/主题色/玻璃透明度/效果优先/减少动效全部经 Zustand → `document.documentElement.setAttribute` / `style.setProperty` → CSS 变量响应。换肤是 CSS 变量天然响应，无需 JS 重渲染。`<html>` 预置 inline 脚本在首帧前设好 `data-theme`/`data-accent`/`data-effect`/`data-reduce-motion`，防闪烁。
+
+> **铁律：不读系统 `prefers-reduced-motion`**——各机系统偏好设置千差万别、开关位置隐蔽，跨机器/跨用户看到的效果不可控，无法保证一致体验。减少动效统一改由应用内显式开关控制（`<html data-reduce-motion="on">`，默认关），用户在 Topbar 点开才降级，所有机器效果完全一致。详见「减少动效开关」章。
 
 ### 亮色流星铁律
 
@@ -392,6 +396,85 @@ toggleEffectPriority: () => get().setEffectPriority(!get().effectPriority),
 
 ---
 
+## 减少动效开关（默认关 · 不读系统偏好）
+
+### 为什么不用 `prefers-reduced-motion`
+
+`prefers-reduced-motion` 读的是操作系统级「减少动态效果」开关，存在三个不可控问题：
+
+1. **跨机不一致**：不同 OS（macOS/Windows/iOS/Android）的开关位置、默认值、联动范围各异，部分老版本或定制 ROM 行为不同——同一份代码在不同机器上动效时有时无，演示与交付效果无法保证。
+2. **用户无感**：系统级开关多数用户不知道、也不会设，等于降级几乎永远不触发；真需要降级的用户（晕动症、低性能机）反而够不到。
+3. **与本系统诉求不对齐**：系统「减少动效」常同时关过渡、滚动惯性、窗口动画，与本系统「只压运动类动效、保留状态反馈」不对齐。
+
+因此 ultra-design-pro **用应用内显式开关替代**：`<html data-reduce-motion="on">`，默认关，用户在 Topbar 点击切换，跨所有机器效果完全一致。
+
+### Store + 开关（复用主题 store）
+
+```ts
+// src/store/theme.ts —— reduceMotion 默认 false
+reduceMotion: false,
+setReduceMotion: (on) => {
+  set({ reduceMotion: on });
+  // 设 <html data-reduce-motion="on"> 触发 CSS 降级 + 组件订阅
+  document.documentElement.setAttribute('data-reduce-motion', on ? 'on' : 'off');
+  localStorage.setItem('aurora-reduce-motion', on ? 'on' : 'off');
+},
+toggleReduceMotion: () => get().setReduceMotion(!get().reduceMotion),
+// hydrate 时从 localStorage 还原 + setAttribute('data-reduce-motion', ...)
+```
+
+```tsx
+// Topbar 里的开关（与效果优先开关并列）
+<div className="flex items-center gap-2">
+  <button role="switch" aria-checked={reduceMotion}
+    aria-label="减少动效（压低入场、循环、星尘与装饰流光）"
+    onClick={() => toggleReduceMotion()}
+    className={reduceMotion ? 'reduce-switch on' : 'reduce-switch'}>
+    <span className="reduce-thumb" />
+  </button>
+  <span className="text-xs text-text-tertiary">{reduceMotion ? '动效已减弱' : '动效完整'}</span>
+</div>
+```
+
+### 降级行为（CSS + 运动类动效 + 星尘 + 流星 四侧）
+
+**① CSS 侧（玻璃降级）**：`<html data-reduce-motion="on">` 下玻璃关 `backdrop-filter` 与噪点层、退回纯 tint（与移动端同款降级）。
+
+```css
+@layer components {
+  :root[data-reduce-motion="on"] .glass,
+  :root[data-reduce-motion="on"] .glass-strong,
+  :root[data-reduce-motion="on"] .glass-soft { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  :root[data-reduce-motion="on"] .glass::after,
+  :root[data-reduce-motion="on"] .glass-strong::after,
+  :root[data-reduce-motion="on"] .glass-soft::after { opacity: 0; }
+}
+```
+
+**② 运动类动效**：所有运动类组件读 `reduceMotion`（Zustand selector 或订阅 `data-reduce-motion` 属性），开启时入场/循环降为极轻或瞬时、视差/磁吸幅度归零、装饰性常驻流光（`SheenSweep`）直接 `return null`。**保留功能性反馈**：状态点（在线/告警脉冲）、聚焦环、加载指示仍有视觉反馈，只是幅度极小或瞬时落定。
+
+```ts
+// src/lib/motion.ts —— 订阅开关（非 useReducedMotion()，不读系统偏好）
+export function useReduceMotion() {
+  return useThemeStore((s) => s.reduceMotion);  // 或订阅 <html data-reduce-motion> 属性
+}
+```
+
+**③ 星尘交互**：`reduceMotion` 为真时 `CursorMeteor` 不挂 `pointermove`/`pointerdown` 监听（零开销、零粒子）。
+
+**④ 流星/氛围**：流星密度降到 2 条、`aura` 漂移与流星飞行可降为静态或极慢；背景仍是流星夜空（身份不丢），只是「不动」。
+
+> **铁律**：组件里**不要用** Motion 的 `useReducedMotion()`（读系统 `prefers-reduced-motion`，跨机不一致）——一律读 Zustand `reduceMotion` 或订阅 `data-reduce-motion` 属性，与开关、CSS 降级同源。
+
+### 减少动效自检子清单
+
+- [ ] 提供「减少动效」开关，**默认关**（`reduceMotion: false`、`<html>` 默认无 `data-reduce-motion="on"`）？
+- [ ] 开关经 store → `data-reduce-motion` 属性 + localStorage 持久化，有 `role="switch"` + `aria-checked` + 清晰态标签？
+- [ ] **全篇不读系统 `prefers-reduced-motion`**（无 `@media (prefers-reduced-motion)`、无 `useReducedMotion()`）？
+- [ ] 开启后：入场/循环/星尘/装饰流光降级或关闭，玻璃退回纯 tint，但功能性反馈（状态点/聚焦环/加载）保留？
+
+---
+
 ## 背景 2D 流星夜空（核心 · 退让不抢戏）
 
 ### 层叠架构（DOM 顺序）
@@ -459,7 +542,7 @@ function buildMeteors(count) {
 | 桌面 ≥1280 | ≤6 |
 | 平板 768–1279 | ≤4 |
 | 移动 <768 | ≤3（省电 + 不抢小屏前景） |
-| prefers-reduced-motion | 2 |
+| 减少（动效开关） | 2 |
 
 ### 流星自检子清单
 
@@ -498,7 +581,7 @@ function buildMeteors(count) {
 - **单 rAF loop 批量更新**所有粒子（非每粒子一个 timer）
 - **粒子池复用**：预建 220 颗 span，淡出回收，避免频繁增删 DOM
 - `pointer-events: none` + `z-index: 9999`（顶层盖所有 UI，但不挡交互）
-- 尊重 `prefers-reduced-motion`（不挂监听）
+- 尊重「减少动效」开关（开启时不挂星尘监听）——**不读系统 `prefers-reduced-motion`**，改用应用内开关（跨机一致，见「减少动效开关」章）
 - 双色点缀：75% `--meteor-color` + 25% `--accent`；30~50% 是闪光沙（更亮更小更快淡）
 
 ```tsx
@@ -521,7 +604,7 @@ interface Particle {
 - [ ] 单 rAF + 粒子池(220) 复用，无频繁增删 DOM？
 - [ ] `pointer-events:none` + `z-index:9999`（顶层不挡交互）？
 - [ ] 双色(--meteor-color / --accent) + 闪光沙点缀？
-- [ ] prefers-reduced-motion 不挂监听？
+- [ ] 「减少动效」开关开启时不挂星尘监听（不读系统 prefers-reduced-motion）？
 
 ---
 
@@ -590,11 +673,12 @@ Next.js App Router 默认无 favicon，`GET /favicon.ico` 必然 404（验收清
 
 ```tsx
 // src/components/motion/primitives.tsx —— 顶栏专用装饰性常驻流光（全页仅 1 处，内容卡禁用）
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
+import { useReduceMotion } from '@/lib/motion'  // 订阅 <html data-reduce-motion>（非系统 prefers-reduced-motion）
 
 export function SheenSweep({ className, duration = 5 }: { className?: string; duration?: number }) {
-  const reduce = useReducedMotion();
-  if (reduce) return null;   // prefers-reduced-motion 降级：关掉装饰流光
+  const reduce = useReduceMotion();
+  if (reduce) return null;   // 减少动效开关降级：关掉装饰流光
   return (
     <span aria-hidden className={`pointer-events-none absolute inset-y-0 left-0 w-2/5 ${className ?? ''}`}
       style={{
@@ -624,7 +708,7 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 - 粒子池封顶 220，死粒子回收
 - 流星同时可见 ≤6，Canvas 星点烘焙不每帧重绘
 - 全 transform/opacity 合成层动画
-- `prefers-reduced-motion` 全局降级
+- 「减少动效」开关（默认关）全局降级：入场/循环/星尘/装饰流光降级或关闭（不读系统 `prefers-reduced-motion`，跨机一致）
 
 ---
 
@@ -640,12 +724,12 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 
 1. 搭 `globals.css` 双维度 token（明暗 × 7 色 + 玻璃 alpha token + 流星/星空 token）+ 默认常数 blur(4px)/saturate(1.5)/噪点贴图 + `:root[data-effect="on"]` 效果优先覆写（blur/saturate 浮动）
 2. 写 `.glass` / `.glass-strong` 组件类（纯 tint + 弱 blur + `::before` 合并 sheen/rim + `::after` 专属噪点磨砂层[独立 opacity] + 投影 + alpha 联动；`data-effect="on"` 把 `::after` opacity 置 0）
-3. 写 Zustand store（mode/accent/glassAlpha/effectPriority + setGlassAlpha 设 CSS 变量 + setEffectPriority 设 data-effect + 持久化）
+3. 写 Zustand store（mode/accent/glassAlpha/effectPriority/reduceMotion + setGlassAlpha 设 CSS 变量 + setEffectPriority 设 data-effect + setReduceMotion 设 data-reduce-motion + 持久化）
 4. 搭背景层：StarfieldBackground(Canvas) + MeteorLayer(DOM) + CursorMeteor(星尘)
 5. 搭前景 UI（Sidebar/Topbar/KpiCard/图表/表格），全用 `.glass`/`.glass-strong`
-6. Topbar 加四个开关/面板：明暗切换 / 主题色 / 玻璃透明度滑块 / **效果优先开关**（默认关）
+6. Topbar 加五个开关/面板：明暗切换 / 主题色 / 玻璃透明度滑块 / **效果优先开关**（默认关） / **减少动效开关**（默认关）
 7. 8 模块全落地 + 真实数据
-8. `next build` + `next start` 验证 HTTP 200、0 console error、滑块/流星/星尘/效果开关交互正常
+8. `next build` + `next start` 验证 HTTP 200、0 console error、滑块/流星/星尘/效果开关/减少动效开关交互正常
 
 ---
 
@@ -675,6 +759,13 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 
 **星尘交互**
 - [ ] 移动拖尾 + 点击爆裂，单 rAF + 粒子池复用，顶层 pointer-events:none？
+- [ ] 「减少动效」开关开启时不挂星尘监听（不读系统 prefers-reduced-motion）？
+
+**减少动效开关（默认关 · 不读系统偏好）**
+- [ ] Topbar 有「减少动效」开关，**默认关**（`<html>` 默认无 `data-reduce-motion="on"`）？
+- [ ] **全篇不读系统 `prefers-reduced-motion`**（无 `@media (prefers-reduced-motion)`、无 `useReducedMotion()`）？运动类动效一律订阅 `data-reduce-motion` 属性 / Zustand `reduceMotion`？
+- [ ] 开关经 store → `data-reduce-motion` 属性 + localStorage 持久化，有 `role="switch"` + `aria-checked` + 清晰态标签（动效完整 / 动效已减弱）？
+- [ ] 开启后：入场/循环/星尘/装饰流光（SheenSweep）降级或关闭，玻璃退回纯 tint（关 backdrop-filter + 噪点），但**功能性反馈保留**（状态点/聚焦环/加载仍有视觉反馈）？
 
 **主题系统**
 - [ ] 双维度(明暗×7色)，Zustand → data-* 属性 → CSS 变量，默认暗色？
@@ -693,7 +784,7 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 2. **一强多弱（装饰性常驻光效仅顶栏）**：`SheenSweep` 边缘流光全页仅放顶栏 1 处；内容卡承载必须静读的数据，只用状态类（在线/告警脉冲）与触发类（hover/click）光效；强感知来自编排节奏，不是堆砌。
 3. **强调色点睛**：accent 只用在 CTA/选中态/数据高亮，不大面积铺。
 4. **颜色走变量/store**：绝不在组件里写死色值，全读 CSS 变量或 Zustand。
-5. **磨砂策略可切换（默认弱 blur+噪点）**：默认（弱 blur + 噪点，主流机流畅）；效果优先切大 blur（截图最出彩）。流畅靠噪点补磨砂而非加大 blur。
+5. **磨砂策略 + 动效均可切换（默认弱 blur+噪点 / 动效完整）**：默认（弱 blur + 噪点，主流机流畅）；效果优先切大 blur（截图最出彩）；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）压低运动类动效、关星尘、玻璃退纯 tint。流畅靠噪点补磨砂而非加大 blur。
 6. **绝不白屏**：CSS 变量兜底、无外部资源依赖（无字体/模型外链）。
 
 ---
@@ -718,4 +809,5 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 | 在内容卡（主图/KPI/表格）上放装饰性常驻光效（如 SheenSweep） | 装饰性常驻光效**全页仅顶栏 1 处**；内容卡承载必须静读的数据，只配状态类（在线/告警脉冲）与触发类（hover/click 即现即灭）；流星夜空/星尘作为背景氛围层不受此约束 |
 | SheenSweep 流光写死亮白 `rgba(255,255,255,0.6)` | 用 `var(--glass-highlight)`（暗色 0.18 含蓄 / 亮色 0.85 明亮）随主题明暗自适应——深色流星夜空上亮白流光过亮刺眼 |
 | 内容卡 hover 触发的 sheen sweep 写死 `rgba(var(--glass-sheen-rgb), 0.5)`（= 暗色 0.5 半透明白） | 同样改用 `var(--glass-highlight)`（暗色 0.18）。"卡片被选中/悬停时高光太亮"就是暗色下把白色 sheen 写死 0.4~0.5 的典型 bug——半透明白在深色玻璃上比顶栏流光更扎眼 |
+| 用 `@media (prefers-reduced-motion)` / `useReducedMotion()` 做动效降级 | 各机系统偏好不一、跨机效果不可控——改用应用内「减少动效」开关（`<html data-reduce-motion="on">`，默认关），用户显式切换、所有机器效果一致 |
 ```
