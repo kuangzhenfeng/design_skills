@@ -58,8 +58,8 @@ cd benchmark-temp && npm run start   # http://localhost:3114/
 │       └── design-perf-benchmark/  # 单 skill 性能因子拆解的驱动 skill（拆特性→单因子隔离页→统一 PerfHud→排名）
 ├── .agents/skills -> ../.claude/skills  # 软链，兼容 agents 工具
 ├── skills_for_benchmark/                # 待测 skill 源文件（本地文件型，subagent 直接 Read）
-│   ├── ultra-design/                    # Liquid Glass 设计系统（弱 blur(4px) + 静态 feTurbulence 噪点磨砂层，Motion 驱动，七维动效体系，双维度正交主题）
-│   ├── ultra-design-pro/                # 纯 2D 液态玻璃（流星夜空 + 可调玻璃透明度 + 鼠标星尘/点击爆裂交互 + 弱 blur+噪点磨砂默认/效果优先开关 + 减少动效开关[默认关·不读系统 prefers-reduced-motion]；零 3D 依赖）
+│   ├── ultra-design/                    # Liquid Glass 设计系统（默认纯 tint 玻璃[零 backdrop-filter]，效果优先开关[默认关]激活完整液态玻璃折射，Motion 驱动，七维动效体系，双维度正交主题）
+│   ├── ultra-design-pro/                # 纯 2D 液态玻璃（流星夜空 + 可调玻璃透明度 + 鼠标星尘/点击爆裂交互 + 默认纯 tint/效果优先开关激活折射 + 减少动效开关[默认关·不读系统 prefers-reduced-motion]；零 3D 依赖）
 │   ├── ui-ux-pro-max/
 │   └── web-design-guidelines/
 ├── benchmark-run/                       # ⚙️ 运行产物（已 gitignore，本地生成，不入库）
@@ -84,23 +84,20 @@ cd benchmark-temp && npm run start   # http://localhost:3114/
 
 ---
 
-## 最新排名（最近一次运行）
+## 最新排名（最近一次运行 · 2026-06-22）
 
-> 数据来源：`benchmark-run/run-meta.json` 与 `benchmark-run/report.md`。当前 5 个参评 skill（4 本地 + 1 插件）均通过启动验证（`npm run dev` 零配置启动、首屏 HTTP 200、无 console error）。
+> 数据来源：`benchmark-run/run-meta.json` 与 `benchmark-run/report.md`。本次参评 `skills_for_benchmark/` 下全部 4 个本地 skill，均通过启动验证（`npm run dev` 零配置启动、首屏 HTTP 200）。
 
-| 排名 | Skill | 加权总分 | 可运行 | 来源 |
-|------|-------|:-------:|:------:|------|
-| 🥇 1 | **ultra-design**（弱 blur + 噪点磨砂） | **9.0 / 10** | ✅ | 本地 `skills_for_benchmark/ultra-design/SKILL.md` |
-| 🥇 1 | **ultra-design-pro**（纯 2D · 流星夜空液态玻璃 · 可调透明度 · 弱 blur+噪点磨砂默认/效果优先开关 · 减少动效开关[默认关·不读系统 prefers-reduced-motion]） | **9.0 / 10** | ✅ | 本地 `skills_for_benchmark/ultra-design-pro/SKILL.md` |
-| 🥉 3 | **ui-ux-pro-max** | 8.5 / 10 | ✅ | 本地 |
-| 3 | **web-design-guidelines** | 8.5 / 10 | ✅ | 本地 |
-| 3 | **frontend-design**（插件对照） | 8.5 / 10 | ✅ | 插件 `frontend-design:frontend-design` |
+| 排名 | Skill | 加权总分 | 可运行 | console error | 来源 |
+|------|-------|:-------:|:------:|:-------------:|------|
+| 🥇 1 | **ultra-design-pro**（流星夜空液态玻璃 · 可调透明度 · `--glass-alpha` 单变量驱动整套玻璃 token） | **8.9 / 10** | ✅ | 1（Google Fonts 404·离线所致） | 本地 `skills_for_benchmark/ultra-design-pro/SKILL.md` |
+| 🥈 2 | **ultra-design**（Liquid Glass 基准范本 · `theme-bootstrap` 内联避免水合闪烁 · 0 error） | **8.8 / 10** | ✅ | **0（最干净）** | 本地 `skills_for_benchmark/ultra-design/SKILL.md` |
+| 🥉 3 | **ui-ux-pro-max**（浅色 Aurora teal/violet · 手绘 SVG 图表 · cmdk ⌘K 搜索） | 7.9 / 10 | ✅ | 2 | 本地 `skills_for_benchmark/ui-ux-pro-max/SKILL.md` |
+| 4 | **web-design-guidelines**（aurora 完整色阶 + chart 色 · 含 error/not-found 页） | 7.7 / 10 | ✅ | 9（ThemeToggle aria 水合失败） | 本地 `skills_for_benchmark/web-design-guidelines/SKILL.md` |
 
 **评分维度（共 8 项，按权重加权）**：视觉冲击力 15% · 设计系统 15% · 动效体系 20% · 组件完成度 15% · 材质与质感 10% · 响应式与适配 10% · 可运行性与工程化 10% · 无障碍与细节 5%。
 
-> `ultra-design`（Liquid Glass 基准范本）与 `ultra-design-pro`（流星夜空液态玻璃进阶变体）设计取向互补、并列第一。完整逐维度得分与每个 skill 的总评，见 [`benchmark-run/report.md`](benchmark-run/report.md)。
-
-> 完整逐维度得分与每个 skill 的总评，见 [`benchmark-run/report.md`](benchmark-run/report.md)。
+> 单项最优：`ultra-design-pro` 拿下视觉/设计系统/动效/材质 4 项第一；`ultra-design` 拿下完成度/响应式/工程化 3 项第一。完整逐维度得分与每个 skill 的总评，见 [`benchmark-run/report.md`](benchmark-run/report.md)。
 
 ---
 

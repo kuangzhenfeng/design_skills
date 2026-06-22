@@ -1,23 +1,23 @@
 ---
 name: ultra-design-pro
-description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风格的前端界面（Dashboard、落地页、SaaS 控制台、可视化看板、品牌门户等）时使用。技术栈：TypeScript + React + Next.js (App Router) + Tailwind CSS + shadcn/ui + Radix + Motion (motion/react + framer-motion) + Zustand。五大取向 —— ① 液态玻璃（首要准则）：所有面板/卡片/弹窗用 `.glass` / `.glass-strong` DOM 玻璃 = backdrop-filter 弱 blur+saturate 极轻折射 + 半透底色 + 菲涅尔顶部高光(sheen) + 边缘色散(rim) + 浮起投影 + 静态 feTurbulence 噪点磨砂层（磨砂颗粒感不靠大 blur），纯 CSS 实现真液态质感，零 3D 库。② 流星夜空 + 星尘交互背景：body 暗色夜空渐变兜底，Canvas 烘焙静态星空底(280 星点不每帧重绘)，DOM/CSS 流星群以 keyframes 沿自身轴线斜飞(头核+渐隐拖尾+glow，同时可见≤6 条、偶发优雅、速度舒缓 3~6s、随主题色换色)；鼠标移动 spawn 星尘/闪沙拖尾(粒子池+rAF)、点击径向爆裂闪光沙，全程 pointer-events:none 顶层不挡交互。③ 可调玻璃透明度（独家）：单一 CSS 变量 `--glass-alpha`(0~1.4)经 Zustand 滑块同时驱动 8+ 层 —— 背景色/饱和度/边框/高光/色散/投影全联动，clamp 非零下限保证"任何时候都是液态玻璃、只调浓重度"，最低档真透出后方流星星空。④ 效果优先开关（默认关）：默认（blur 封顶 4px + saturate 1.5 + 噪点磨砂层，主流机流畅不掉帧，磨砂颗粒由静态噪点提供不靠大 blur）；Topbar 开启效果优先(`[data-effect="on"]`)后——blur 随 `--glass-alpha` 在 2~28px 浮动、无噪点，靠大半径 backdrop-filter 磨砂，截图/演示最出彩但低端机可能掉帧。⑤ 减少动效开关（默认关）：**不读系统 `prefers-reduced-motion`**（各机偏好不一、跨机效果不可控），改由应用内显式开关(`<html data-reduce-motion="on">`)统一控制——开启后入场/循环/星尘/装饰流光降级或关闭、玻璃退回纯 tint，功能性反馈保留，所有机器效果一致。视觉优先 + 主流机流畅（DPR≤2、粒子池封顶、合成层动画、流星可见封顶、Canvas 烘焙）。内置亮/暗双主题 + 7 主题色（默认暗色——夜空流星暗色最出彩；亮色流星=主题色偏灰 color-mix，绝不用白流星）。生成生产级、可直接运行的 TSX/CSS 代码，告别平庸毛玻璃。
+description: 当需要构建高质量、极具设计感、纯 2D 液态玻璃风格的前端界面（Dashboard、落地页、SaaS 控制台、可视化看板、品牌门户等）时使用。技术栈：TypeScript + React + Next.js (App Router) + Tailwind CSS + shadcn/ui + Radix + Motion (motion/react + framer-motion) + Zustand。五大取向 —— ① 液态玻璃（首要准则）：开启效果优先后，所有面板/卡片/弹窗用 `.glass` / `.glass-strong` DOM 玻璃 = backdrop-filter blur+saturate 折射 + 半透底色 + 菲涅尔顶部高光(sheen) + 边缘色散(rim) + 浮起投影，纯 CSS 实现真液态质感，零 3D 库。② 流星夜空 + 星尘交互背景：body 暗色夜空渐变兜底，Canvas 烘焙静态星空底(280 星点不每帧重绘)，DOM/CSS 流星群以 keyframes 沿自身轴线斜飞(头核+渐隐拖尾+glow，同时可见≤6 条、偶发优雅、速度舒缓 3~6s、随主题色换色)；鼠标移动 spawn 星尘/闪沙拖尾(粒子池+rAF)、点击径向爆裂闪光沙，全程 pointer-events:none 顶层不挡交互。③ 可调玻璃透明度（独家）：单一 CSS 变量 `--glass-alpha`(0~1.4)经 Zustand 滑块同时驱动背景色/饱和度/边框/高光/色散/投影全联动，clamp 非零下限保证"任何时候都是液态玻璃、只调浓重度"，最低档真透出后方流星星空。④ 效果优先开关（默认关）：**默认（关闭）= 纯 tint 玻璃——零 backdrop-filter、零卷积开销，玻璃退回半透底色 + 菲涅尔 sheen + 边缘 rim + 浮起投影，主流机/低端机绝对流畅、零掉帧**；Topbar 开启效果优先(`[data-effect="on"]`)后——blur/saturate 随 `--glass-alpha` 浮动(2~28px)、激活真折射，截图/演示最出彩但低端机可能掉帧。⑤ 减少动效开关（默认关）：**不读系统 `prefers-reduced-motion`**（各机偏好不一、跨机效果不可控），改由应用内显式开关(`<html data-reduce-motion="on">`)统一控制——开启后入场/循环/星尘/装饰流光降级或关闭、玻璃退回纯 tint，功能性反馈保留，所有机器效果一致。视觉优先 + 默认主流机流畅（默认纯 tint 零卷积、效果优先档 DPR≤2、粒子池封顶、合成层动画、流星可见封顶、Canvas 烘焙）。内置亮/暗双主题 + 7 主题色（默认暗色——夜空流星暗色最出彩；亮色流星=主题色偏灰 color-mix，绝不用白流星）。生成生产级、可直接运行的 TSX/CSS 代码，告别平庸毛玻璃。
 ---
 
-# Ultra Design Pro — 流星夜空液态玻璃设计系统（纯 2D · 可调透明度 · 星尘交互 · 弱 blur+噪点磨砂）
+# Ultra Design Pro — 流星夜空液态玻璃设计系统（纯 2D · 可调透明度 · 星尘交互 · 默认纯 tint / 效果优先完整液态玻璃）
 
 ## 概述
 
-本 skill 用于构建**纯 2D、视觉优先**的高质感前端界面。界面是**浮在流星夜空前的液态玻璃面板群**：所有 UI 控件（导航、卡片、按钮、输入框、弹窗）用 DOM `backdrop-filter` 玻璃实现，带磨砂折射 + 菲涅尔高光 + 边缘色散 + 浮起投影；背景是暗色夜空里的偶发流星群 + 烘焙星空底，鼠标移动拖出星尘、点击迸发闪光沙。一切由用户滑块控制的「玻璃浓重度」统一调节，0~1.4 平滑联动所有层。
+本 skill 用于构建**纯 2D、视觉优先**的高质感前端界面。界面是**浮在流星夜空前的液态玻璃面板群**：开启效果优先后，所有 UI 控件（导航、卡片、按钮、输入框、弹窗）用 DOM `backdrop-filter` 玻璃实现，带磨砂折射 + 菲涅尔高光 + 边缘色散 + 浮起投影；背景是暗色夜空里的偶发流星群 + 烘焙星空底，鼠标移动拖出星尘、点击迸发闪光沙。一切由用户滑块控制的「玻璃浓重度」统一调节，0~1.4 平滑联动所有层。
 
-**首要准则：液态玻璃 + 流星夜空 + 可调透明度 + 效果优先开关 + 减少动效开关，五者缺一不可。** 玻璃要"液态"——不是普通毛玻璃，而是有折射质感（弱 blur+saturate 极轻折射、菲涅尔 sheen 高光、色散 rim 棱线、浮起投影）+ 静态噪点磨砂层（颗粒感不靠大 blur）的半透面板；背景要"有生命"——夜空里偶发流星划过 + 静态星点垫底，绝不做死板的纯色底；透明度要"可控"——单一变量驱动 8+ 层，最低档透出星空、最高档浓重磨砂，中间全程平滑；磨砂策略要"可切换"——默认（弱 blur + 噪点，主流机流畅），效果优先开关切大 blur（截图最出彩）；动效要"可降级"——应用内「减少动效」开关（默认关，**不读系统 `prefers-reduced-motion`**）开启后压低运动类动效、关星尘、玻璃退回纯 tint，跨机器效果一致。
+**首要准则：液态玻璃 + 流星夜空 + 可调透明度 + 效果优先开关 + 减少动效开关，五者缺一不可。** 玻璃要"液态"——不是普通毛玻璃，而是有折射质感（blur+saturate 折射、菲涅尔 sheen 高光、色散 rim 棱线、浮起投影）的半透面板；背景要"有生命"——夜空里偶发流星划过 + 静态星点垫底，绝不做死板的纯色底；透明度要"可控"——单一变量驱动所有层，最低档透出星空、最高档浓重磨砂，中间全程平滑；磨砂策略要"可切换"——**默认（关闭效果优先）= 纯 tint 玻璃（零 backdrop-filter、零卷积开销，主流机/低端机绝对流畅）**，效果优先开关开启后激活真折射（截图/演示最出彩）；动效要"可降级"——应用内「减少动效」开关（默认关，**不读系统 `prefers-reduced-motion`**）开启后压低运动类动效、关星尘、玻璃退回纯 tint，跨机器效果一致。
 
 ### 设计五原则
 
-1. **液态玻璃（首要）**：UI 控件本身就是 DOM 玻璃（`.glass`/`.glass-strong`），带弱 blur+saturate 极轻折射、菲涅尔顶部 sheen、边缘色散 rim、浮起投影，**默认再叠一层静态 feTurbulence 噪点磨砂层**（磨砂颗粒感来自噪点而非大 blur）。质感来自这几层叠加，不是单一 backdrop-filter。
+1. **液态玻璃（首要）**：UI 控件本身就是 DOM 玻璃（`.glass`/`.glass-strong`）。**默认（效果优先关）是纯 tint 玻璃**——半透底色 + 菲涅尔顶部 sheen + 边缘色散 rim + 浮起投影，零 backdrop-filter、零卷积开销；**效果优先开**则激活 `backdrop-filter: blur+saturate` 真折射，磨砂质感全开。质感来自这几层叠加，不是单一 backdrop-filter。
 2. **背景流星夜空**：后景是 DOM/CSS 流星群 + Canvas 烘焙星空底（都在 3D 场景之外，纯 2D 层）。流星 = 细长发光线段，linear-gradient 头亮尾隐拖尾 + box-shadow glow，沿自身轴线（旋转角 = 飞行方向）斜飞，同时可见 ≤6 条、偶发优雅、速度舒缓。
 3. **可调玻璃透明度**：单一 CSS 变量 `--glass-alpha`(0~1.4) 驱动所有玻璃层（背景色/saturate/边框/sheen/rim/投影）。clamp 给每层非零下限——任何时候都是玻璃（非空气），只调浓重度。最低档透出后方流星，最高档浓重磨砂。
 4. **星尘交互反馈**：鼠标移动 spawn 星尘/闪沙拖尾，点击径向爆裂闪光沙。粒子池 + 单 rAF loop，pointer-events:none 顶层不挡交互。
-5. **磨砂策略 + 动效均可切换（默认弱 blur+噪点 / 动效完整）**：默认——blur 封顶 4px + saturate 1.5 + 噪点磨砂层，磨砂颗粒由静态噪点提供，主流机低端场景不掉帧；效果优先开关切大 blur——blur 随浓重度浮动(2~28px)、无噪点，靠大半径 backdrop-filter 磨砂，演示/截图最出彩；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）——开启后压低入场/循环动效、关星尘与装饰流光、玻璃退回纯 tint，功能性反馈保留。DPR≤2、粒子池封顶、流星可见封顶≤6、Canvas 星点烘焙不每帧重绘、全 transform/opacity 合成层动画。
+5. **磨砂策略 + 动效均可切换（默认纯 tint / 动效完整）**：**默认（效果优先关）——纯 tint 玻璃，零 backdrop-filter、零卷积，主流机/低端机绝对流畅、零掉帧**；效果优先开关开启——blur/saturate 随浓重度浮动(2~28px)、激活真折射，演示/截图最出彩；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）——开启后压低入场/循环动效、关星尘与装饰流光、玻璃退回纯 tint，功能性反馈保留。效果优先档 DPR≤2、粒子池封顶、流星可见封顶≤6、Canvas 星点烘焙不每帧重绘、全 transform/opacity 合成层动画。
 
 ---
 
@@ -109,39 +109,37 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 
 ---
 
-## 液态玻璃材质原理（核心 · 弱 blur + 噪点磨砂）
+## 液态玻璃材质原理（核心 · 默认纯 tint / 效果优先完整液态玻璃）
 
 ### 为什么不是普通毛玻璃
 
 普通毛玻璃 = `backdrop-filter: blur()` 一层了事 → 平、死板、无质感。
 
-**液态玻璃 = 多层叠加（默认）**：
+**液态玻璃 = 多层叠加**（默认纯 tint 版零 backdrop-filter，效果优先开激活真折射）：
 
-| 层 | CSS | 作用 |
-|----|-----|------|
-| ① 极轻折射 | `backdrop-filter: blur(4px) saturate(1.5)` | 极小半径折射 + 提饱和，只给玻璃一点"折"的底（默认把半径钉死 4px，开销可控） |
-| ② 半透底色 | `background: rgb(... / alpha)` | 玻璃本身的色调底，半透才见后方 |
-| ③ 噪点磨砂层 | `.glass::after` 叠 feTurbulence 静态贴图（**经 feComponentTransfer 压到中灰带**）+ `mix-blend-mode: overlay` + **`opacity`** | **默认策略灵魂**：磨砂颗粒感来自静态噪点而非大 blur；**必须满足两条件——色值压到中灰带（否则满量程亮像素经 overlay 把暗 tint 顶成噪点雪花）+ 独立 `opacity` 衰减（否则全强度偏脏）** |
-| ④ 菲涅尔高光（sheen + rim 合并） | `.glass::before` 两层渐变 | 顶部斜向白色光泽带 + 对角 accent 色散 + 天蓝双色棱线，玻璃"亮"的灵魂 |
-| ⑤ 浮起投影 | `box-shadow: inset白 + drop黑` | inset 白光 = 顶边高光；drop 黑 = 玻璃浮起 |
+| 层 | CSS | 作用 | 默认(效果优先关) | 效果优先开 |
+|----|-----|------|:-:|:-:|
+| ① 折射 | `backdrop-filter: blur(α) saturate(α)` | 折射后方 + 提饱和，玻璃"折"的底 | ❌ 关（零卷积） | ✅ blur 2~28px 浮动 |
+| ② 半透底色 | `background: rgb(... / alpha)` | 玻璃本身的色调底，半透才见后方 | ✅ | ✅ |
+| ③ 菲涅尔高光（sheen + rim 合并） | `.glass::before` 两层渐变 | 顶部斜向白色光泽带 + 对角 accent 色散 + 天蓝双色棱线，玻璃"亮"的灵魂 | ✅ | ✅ |
+| ④ 浮起投影 | `box-shadow: inset白 + drop黑` | inset 白光 = 顶边高光；drop 黑 = 玻璃浮起 | ✅ | ✅ |
 
-> **铁律：噪点磨砂层必须满足「独立 `opacity` 衰减」+「色值压缩到中灰带」两条**。前一条：`background-blend-mode: overlay` 无法调强度，会把噪点全强度砸在 tint 上；后一条同样致命但更隐蔽——`feTurbulence` 的原始输出是满量程 `[0,1]`，亮像素（≈0.95）在暗色 tint（≈0.1）上走 overlay 的 `2*base*top` 乘积分支，把该像素亮度顶到 ≈0.19（接近翻倍变暗），逐像素累积成**一片偏白偏刺的密集颗粒，像噪点电视雪花**，磨砂感脏而刺眼。必须用 `feComponentTransfer` 把噪点**色值压缩到中灰带 `[0.325, 0.675]`**（`slope='0.35' intercept='0.325'`），单像素亮度摆幅从 ±90% 降到 ±35%，再叠 `::after` + `mix-blend-mode: overlay` + `opacity`，磨砂才干净自然。
+> **铁律：默认（效果优先关）= 纯 tint 玻璃，零 backdrop-filter。** 折射层（①）在默认下完全关闭——`backdrop-filter: none`，零卷积采样、零 GPU 折射重算，主流机/低端机绝对流畅、零掉帧。此时玻璃的液态质感由 ② 半透 tint + ③ 菲涅尔 sheen/rim 高光 + ④ 浮起投影三件套撑起：半透底色让后方流星/图表隐约透出，菲涅尔高光给玻璃"亮"的灵魂，浮起投影给玻璃"重量"。开启效果优先（`[data-effect="on"]`）才激活 ① 折射层，blur/saturate 随 `--glass-alpha` 浮动，真折射质感全开。
 >
-> **为什么 ultra-design-pro 的 `::after` 能放噪点**：本 skill 把 sheen（顶部高光）和 rim（边缘色散）**合并到一个 `::before`**（多重 `background` 叠加），腾出 `::after` 专门放噪点磨砂层 + 独立 `opacity`。`::before` 一个伪元素装两个高光层完全够用（都是定位 `inset:0` 的渐变叠加），不损失视觉效果。
+> **为什么 ultra-design-pro 的 `::before` 能装下 sheen + rim**：本 skill 把 sheen（顶部高光）和 rim（边缘色散）合并到一个 `::before`（多重 `background` 叠加），结构精简。`::before` 一个伪元素装两个高光层完全够用（都是定位 `inset:0` 的渐变叠加），不损失视觉效果。
 
 ```css
 @layer components {
+  /* 默认（无 data-effect="on"）= 纯 tint 玻璃：零 backdrop-filter、零卷积开销。
+     玻璃质感由 半透 tint + ::before(sheen+rim) + 浮起投影 三件套撑起，主流机/低端机绝对流畅。 */
   .glass {
     position: relative;
-    /* 只放 tint —— 噪点移到独立 ::after 层，强度才能用 opacity 单独调 */
     background: var(--glass-bg);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-inner-glass), var(--shadow-glass);
     overflow: hidden;
   }
-  /* ::before = sheen + rim 合并到一个伪元素（腾出 ::after 给噪点） */
+  /* ::before = sheen + rim 合并到一个伪元素：顶部斜向白色光泽带 + 对角 accent 色散 + 天蓝双色棱线 */
   .glass::before {
     content: ''; position: absolute; inset: 0; border-radius: inherit;
     background:
@@ -152,44 +150,16 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
     mix-blend-mode: screen; pointer-events: none;
     opacity: var(--glass-rim-alpha);
   }
-  /* ::after = 专属噪点磨砂层（独立 opacity = 可调颗粒强度）。
-     关键两步：① feComponentTransfer 把噪点色值压到中灰带 [0.325,0.675]，否则满量程噪点的亮像素在 overlay
-     下把暗色 tint 整片提亮成噪点雪花；② opacity 是强度旋钮，暗色用 0.16、亮色用 0.12。
-     绝不可省略 feComponentTransfer 或 opacity——前者导致"电视雪花"，后者全强度偏脏。 */
-  .glass::after {
-    content: ''; position: absolute; inset: 0; border-radius: inherit;
-    background-image: var(--glass-noise);
-    background-size: 200px 200px;
-    mix-blend-mode: overlay;
-    opacity: var(--glass-noise-opacity);
-    pointer-events: none;
+  /* 效果优先模式（data-effect="on"）：激活真折射——blur/saturate 随 --glass-alpha 浮动到大半径。
+     默认（关）无 backdrop-filter，零卷积；开启后才挂上。 */
+  :root[data-effect="on"] .glass {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
-  /* 效果优先模式（data-effect="on"）：关掉噪点层（opacity:0），blur 随 --glass-alpha 浮动到大半径 */
-  :root[data-effect="on"] .glass::after { opacity: 0; }
 }
 ```
 
-> **噪点贴图参数（默认值）**：`feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'` + **`feComponentTransfer` 把 RGB(A) 四通道 `slope='0.35' intercept='0.325'` 压到中灰带**，贴图尺寸 `200×200px`。
-> - `baseFrequency 0.9`：颗粒细腻致密（0.85 偏粗，0.9 更接近真磨砂玻璃）；
-> - `numOctaves 3`：噪声叠加 3 层，颗粒有自然大小变化（2 偏平板，3 层次最自然，4+ 边际递减）；
-> - `fractalNoise`（非 turbulence）：分形噪声出细腻均匀颗粒，turbulence 偏毛糙云团；
-> - **`feComponentTransfer slope='0.35' intercept='0.325'`（关键）**：原始 feTurbulence 输出满量程 `[0,1]`，亮像素 ≈0.95 在暗 tint 上经 overlay 会被顶亮到 ≈0.19（接近翻倍），整片偏白像噪点雪花。压缩到中灰带 `[0.325, 0.675]` 后单像素摆幅 ±35%，磨砂柔和干净；
-> - `--glass-noise-opacity`：**0.16**（暗色 `:root`，色值压缩后可稍提强度仍干净）/ **0.12**（亮色 `[data-theme='light']`，亮 tint 容忍度低，更淡）。
-
-### ❌ 反例（早期 bug 复现）：噪点用 `background-blend-mode` 全强度、无 opacity
-
-```css
-/* ❌ 错：噪点放 .glass background + background-blend-mode: overlay，没 opacity 衰减 */
-.glass {
-  background:
-    var(--glass-noise) top left / 140px 140px,
-    var(--glass-bg);
-  background-blend-mode: overlay, normal;   /* overlay 无法调强度，全强度砸暗色 tint → 偏亮偏脏 */
-}
-```
-> 实测后果：暗色玻璃上噪点变成一片偏白的密集亮颗粒（overlay 提亮暗底），像噪点电视雪花，磨砂感脏而刺眼。`background-blend-mode` 没有"强度"概念，**任何想调噪点强度的需求都说明实现路径错了**——必须改用 `::after` + `mix-blend-mode: overlay` + `opacity`。
->
-> 同样症状的另一成因（更隐蔽）：噪点 URL 里**漏了 `feComponentTransfer`**。原始 `feTurbulence` 输出满量程 `[0,1]`，亮像素 ≈0.95 即使加了 `opacity: 0.16`，落在暗 tint（≈0.1）上经 overlay 仍会被顶亮到接近翻倍，逐像素累积成同一片"电视雪花"。**雪花症状 = `feComponentTransfer` 缺失 或 opacity 缺失，两选其一（或都缺）**。修复：在 SVG 滤镜里补 `feComponentTransfer` 把四通道 `slope='0.35' intercept='0.325'` 压到中灰带 `[0.325,0.675]`，并确认 `::after` 有 `opacity`。
+> **默认纯 tint 的玻璃质感来源**：半透 `--glass-bg` 让后方流星/图表隐约透出（"透"）；`::before` 的 sheen/rim 给菲涅尔折射高光与边缘色散棱线（"亮"）；`box-shadow` 的 inset 白光 + drop 黑投影给浮起重量（"重"）。这三件套与 `backdrop-filter` 折射无关，所以默认零 backdrop-filter 仍是"液态玻璃"，只是没有"磨砂折射"——开启效果优先才补上这一层。
 
 ---
 
@@ -197,16 +167,16 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 
 ### 铁律：单一变量驱动所有层，clamp 非零下限
 
-> **关键认知**：液态玻璃的"通透" ≠ "让玻璃消失"。如果只降背景色 alpha，blur 仍很大 → 后方被糊成色块，看起来还是不透明。必须让 `--glass-alpha` **同时驱动背景色/saturate/边框/sheen/rim/投影 共 8+ 层**，且每层用 `clamp(下限, calc(下限 + 斜率 × α), 上限)` 保留**非零下限**——任何浓重度都是玻璃，只调浓淡。
+> **关键认知**：液态玻璃的"通透" ≠ "让玻璃消失"。必须让 `--glass-alpha` **同时驱动背景色/边框/sheen/rim/投影**（效果优先开还额外驱动 blur/saturate），且每层用 `clamp(下限, calc(下限 + 斜率 × α), 上限)` 保留**非零下限**——任何浓重度都是玻璃，只调浓淡。
 >
-> **注意（默认下 blur/saturate 是常数）**：默认里 `--glass-blur`/`--glass-saturate` 钉死弱档常数（4px / 1.5），**不随 α 浮动**——磨砂颗粒感交给静态噪点层，不需要大 blur。下表的 blur/saturate 列是**效果优先模式**（`data-effect="on"`）下的浮动值，默认把这两列钉成常数即可。
+> **注意（默认下无折射层）**：默认（效果优先关）没有 `backdrop-filter`，blur/saturate 这两列只在效果优先开（`data-effect="on"`）时存在并随 α 浮动；默认下玻璃的"通透"完全由半透 tint 承载。
 
-| α（浓重度） | 含义 | 背景 alpha | blur（效果优先浮动 / 默认固定） | saturate（同左） | sheen | rim |
+| α（浓重度） | 含义 | 背景 alpha | blur（效果优先开浮动 / 默认关=无折射） | saturate（同左） | sheen | rim |
 |-------------|------|-----------|------|----------|-------|-----|
-| **0** | 最通透 | 0.05 | 3px / **4px** | 1.1 / **1.5** | 0.35 | 0.45 |
-| 0.5 | 通透液态 | 0.15 | 11.5px / **4px** | 1.35 / **1.5** | — | — |
-| **1**（默认） | 基准液态玻璃 | 0.25 | 20px / **4px** | 1.6 / **1.5** | 0.62 | 0.78 |
-| 1.4 | 最浓磨砂 | 0.33 | 27px / **4px** | 1.8 / **1.5** | 0.85 | 1.0 |
+| **0** | 最通透 | 0.05 | 2px / **无** | 1.1 / **无** | 0.35 | 0.45 |
+| 0.5 | 通透液态 | 0.15 | 11.5px / **无** | 1.35 / **无** | — | — |
+| **1**（默认） | 基准液态玻璃 | 0.25 | 20px / **无** | 1.6 / **无** | 0.62 | 0.78 |
+| 1.4 | 最浓磨砂 | 0.33 | 27px / **无** | 1.8 / **无** | 0.85 | 1.0 |
 
 ### 完整 token（`globals.css` `:root`，暗色）
 
@@ -217,30 +187,18 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 --glass-strong: rgb(22 32 56 / clamp(0.05, calc(0.05 + 0.2 * var(--glass-alpha)), 0.4));
 --glass-soft: rgb(18 26 46 / clamp(0.02, calc(0.02 + 0.1 * var(--glass-alpha)), 0.2));
 
-/* ===== 默认（无 data-effect="on"）：blur/saturate 钉死弱档常数 =====
-   磨砂颗粒感交给 --glass-noise 静态噪点层，不需要大 blur。
-   这是 ultra-design-pro 的"主流机流畅"默认取向。 */
---glass-blur: 4px;            /* 极轻折射，半径小开销低 */
---glass-blur-strong: 5px;     /* strong 档略高但仍弱 */
---glass-saturate: 1.5;        /* saturate 比 blur 便宜一个量级，补折射饱和感 */
+/* ===== 默认（无 data-effect="on"）：纯 tint 玻璃，无 backdrop-filter、零卷积 =====
+   玻璃的"通透"完全由半透 --glass-bg 承载，"液态质感"由 ::before sheen/rim + 浮起投影撑起。
+   默认不定义 --glass-blur / --glass-saturate（玻璃类默认也不挂 backdrop-filter），
+   这两个变量只在效果优先模式下被引用（见下文效果优先章覆写）。 */
 
-/* ===== 效果优先模式（[data-effect="on"]）：blur/saturate 随 α 浮动到大半径，靠大 blur 本身磨砂 =====
+/* ===== 效果优先模式（[data-effect="on"]）：blur/saturate 随 α 浮动到大半径，激活真折射 =====
    效果优先档：blur 在 2~24px、blur-strong 在 3~28px、saturate 在 1.1~1.85 随浓重度联动。
    浮动版本保留在此作效果优先覆写的参考（实际覆写见下文效果优先章）。 */
 /* 浮动 blur 参考值（仅 data-effect="on" 生效）：
    --glass-blur: clamp(2px, calc(2px + 14px * var(--glass-alpha)), 24px);
    --glass-blur-strong: clamp(3px, calc(3px + 17px * var(--glass-alpha)), 28px);
    --glass-saturate: clamp(1.1, calc(1.1 + 0.5 * var(--glass-alpha)), 1.85); */
-
-/* 默认噪点磨砂贴图（feTurbulence 烘焙成静态 background-image，浏览器只栅格化一次、非每帧采样）。
-   freq 0.9 + oct 3 = 细腻致密且有层次的颗粒。
-   【铁律·两条】① feComponentTransfer 必须把噪点压到中灰带——原始满量程 [0,1] 噪点的亮像素经 overlay
-   会把暗 tint 整片提亮成噪点雪花；② 强度必须由独立的 --glass-noise-opacity 控制（::after 伪元素），
-   绝不可靠 background-blend-mode 全强度。 */
---glass-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='0.35' intercept='0.325'/%3E%3CfeFuncG type='linear' slope='0.35' intercept='0.325'/%3E%3CfeFuncB type='linear' slope='0.35' intercept='0.325'/%3E%3CfeFuncA type='linear' slope='0.35' intercept='0.325'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-/* 噪点磨砂强度（::after opacity）。暗色玻璃 0.16：色值压缩后可稍提强度仍干净；
-   全强度或过低（如 0.04）都会失败——0.04 几乎看不见磨砂，全强度则偏亮偏脏。 */
---glass-noise-opacity: 0.16;
 
 /* 边框：α=0→0.04, α=1→0.1 */
 --glass-border: rgb(255 255 255 / clamp(0.04, calc(0.04 + 0.06 * var(--glass-alpha)), 0.18));
@@ -258,8 +216,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
    亮色 0.85 明亮：浅色背景上流光要够显眼才看得见。 */
 --glass-highlight: rgba(255, 255, 255, 0.18);   /* 暗色 :root */
 /* 亮色 [data-theme='light'] 下覆写为：
-   --glass-highlight: rgba(255, 255, 255, 0.85);
-   --glass-noise-opacity: 0.12;  /* 亮 tint 容忍度低，噪点更淡（色值压缩后可比旧 0.09 略提） */ */
+   --glass-highlight: rgba(255, 255, 255, 0.85);  /* 亮色流光要够显眼才看得见 */ */
 ```
 
 ### Store + 滑块
@@ -284,9 +241,9 @@ setGlassAlpha: (n) => {
   <input type="range" min={0} max={1.4} step={0.05} value={glassAlpha}
     onChange={(e) => setGlassAlpha(parseFloat(e.target.value))} className="glass-range" />
   <button onClick={() => setGlassAlpha(1)}>重置</button>
-  {/* 效果优先开关：默认关（主流机流畅），开启 → blur 浮动 + 关噪点（截图最出彩） */}
+  {/* 效果优先开关：默认关（纯 tint 玻璃，零卷积、主流机流畅），开启 → 激活 backdrop-filter 真折射（截图最出彩） */}
   <div className="flex items-center gap-2">
-    <button role="switch" aria-checked={effectPriority} aria-label="效果优先（大 blur，关闭噪点磨砂）"
+    <button role="switch" aria-checked={effectPriority} aria-label="效果优先（激活 backdrop-filter 折射）"
       onClick={() => toggleEffectPriority()} className={effectPriority ? 'effect-switch on' : 'effect-switch'}>
       <span className="effect-thumb" />
     </button>
@@ -297,73 +254,68 @@ setGlassAlpha: (n) => {
 
 ### 调参心法（踩过的坑）
 
-> **❌ 错 1：只乘背景色 alpha**（`calc(0.42 * α)`）→ α=0 时 blur 仍很大，后方糊成色块，"还是不透明"。
+> **❌ 错 1：只乘背景色 alpha**（`calc(0.42 * α)`）→ α=0 时玻璃失去色调底，"还是不透明"。
 > **❌ 错 2：所有层都 ×α 且下限归零** → α=0 玻璃完全消失（变空气，不是玻璃），且滑条稍微一拉就极差。
-> **❌ 错 3（默认策略）**：以为 blur 钉死 4px 就"不够磨砂" → 磨砂颗粒感由 `--glass-noise` 噪点层补足（人眼判定磨砂颗粒感 > 模糊感），blur 只需极轻折射即可；若靠加大 blur 补磨砂，又退回效果优先的高开销。
-> **❌ 错 4（效果优先）**：开启效果优先却仍开着噪点 → 大 blur + 噪点双重磨砂会"糊成一团脏"，效果优先必须关噪点、纯靠大 blur 磨砂。
-> **✅ 对**：每层 `clamp(非零下限, calc(下限 + 斜率×α), 上限)`。默认——blur/saturate 钉弱档常数、磨砂交噪点，主流机流畅；效果优先——blur/saturate 随 α 浮动到大半径、关噪点，靠大 blur 本身磨砂。背景/blur 下限低，折射层(saturate/sheen/rim)下限适中（始终保留液态光泽）。
+> **✅ 对**：每层 `clamp(非零下限, calc(下限 + 斜率×α), 上限)`。背景/blur 下限低，折射层(saturate/sheen/rim)下限适中（始终保留液态光泽）。
+>
+> **默认 vs 效果优先的分工**：默认（关）= 纯 tint，通透完全由半透 `--glass-bg` 承载、零 backdrop-filter；效果优先开 = 额外激活 blur/saturate 折射，随 α 浮动。两者都靠 `--glass-alpha` 驱动背景色/边框/sheen/rim/投影（浓重度）。
 
 ### 可调透明度自检子清单
 
-- [ ] `--glass-alpha` 同时驱动背景色/saturate/边框/sheen/rim/投影 共 8+ 层？
+- [ ] `--glass-alpha` 同时驱动背景色/边框/sheen/rim/投影（效果优先开还额外驱动 blur/saturate）？
 - [ ] 每层用 `clamp(非零下限, ...)`，α=0 时仍是玻璃（非消失）？
-- [ ] 默认：`--glass-blur`/`--glass-saturate` 钉弱档常数(4px/1.5)，磨砂颗粒由 `--glass-noise` 噪点层提供？
+- [ ] 默认（效果优先关）玻璃无 `backdrop-filter`，通透由半透 `--glass-bg` 承载？
 - [ ] α=1 默认档背景 alpha ≤ 0.25（不是磨砂板）？
-- [ ] 折射层(sheen/rim/saturate)下限 ≥ 0.3 / 1.1（始终有液态光泽）？
+- [ ] 折射层(sheen/rim)下限 ≥ 0.3（始终有液态光泽）？
 - [ ] 滑块经 store → `documentElement.style.setProperty('--glass-alpha', n)`，持久化到 localStorage？
 - [ ] 滑块范围 0~1.4、step 0.05、显示百分比、有重置？
 
 ---
 
-## 效果优先开关（磨砂策略 · 默认关）
+## 效果优先开关（折射开关 · 默认关）
 
-### 两档磨砂策略对比
+### 两档策略对比
 
-| 维度 | 默认（弱 blur+噪点） | 效果优先（`data-effect="on"`） |
+| 维度 | 默认（效果优先关 = 纯 tint 玻璃） | 效果优先（`data-effect="on"`） |
 |------|---------------|------------------------------|
-| blur 半径 | 钉死 **4px**（极轻折射） | 随 α 浮动 **2~28px**（大半径磨砂） |
-| saturate | 钉死 **1.5** | 随 α 浮动 1.1~1.85 |
-| 噪点磨砂层 | **开**（`--glass-noise` overlay） | **关**（纯 tint） |
-| 磨砂来源 | 静态噪点颗粒（非每帧） | 大半径 backdrop-filter（每帧卷积） |
-| GPU 开销 | 低（blur 半径小 + 噪点静态烘焙） | 高（blur² × 面积，R² 项） |
-| 适用 | 主流机流畅、低端机、生产默认 | 截图、演示、出彩时刻、高端机 |
-| `--glass-alpha` 仍驱动 | 背景色/边框/sheen/rim/投影（浓重度） | 同左 + blur/saturate（磨砂也联动） |
+| `backdrop-filter` | **无**（零卷积） | blur+saturate 随 α 浮动 |
+| blur 半径 | **无折射** | 随 α 浮动 **2~28px**（大半径磨砂） |
+| saturate | **无折射** | 随 α 浮动 1.1~1.85 |
+| 半透 tint + sheen + rim + 投影 | ✅ 全保留 | ✅ 全保留 |
+| GPU 开销 | **极低**（零 backdrop 卷积） | 高（blur² × 面积，R² 项） |
+| 适用 | **生产默认**、主流机、低端机、长开场景 | 截图、演示、出彩时刻、高端机 |
+| `--glass-alpha` 驱动 | 背景色/边框/sheen/rim/投影（浓重度） | 同左 + blur/saturate（折射也联动） |
 
 ### 核心覆写（`globals.css`）
 
 ```css
 @layer base {
   /* 效果优先模式（默认关）：开启后——
-     blur/saturate 随 --glass-alpha 浮动到大半径，关掉噪点磨砂层，纯靠大 blur 磨砂。
-     放在 :root 之后，:root[data-effect="on"] 特异性更高，覆盖默认的常数 blur。 */
+     激活 backdrop-filter，blur/saturate 随 --glass-alpha 浮动到大半径，真折射质感全开。
+     放在 :root 之后，:root[data-effect="on"] 特异性更高。
+     默认（无 data-effect="on"）不定义这两个变量、玻璃类也不挂 backdrop-filter = 纯 tint 零卷积。 */
   :root[data-effect="on"] {
     --glass-blur: clamp(2px, calc(2px + 14px * var(--glass-alpha)), 24px);
     --glass-blur-strong: clamp(3px, calc(3px + 17px * var(--glass-alpha)), 28px);
     --glass-saturate: clamp(1.1, calc(1.1 + 0.5 * var(--glass-alpha)), 1.85);
   }
 }
-@layer components {
-  /* 关噪点磨砂层（见液态玻璃材质原理章的 :root[data-effect="on"] .glass::after 规则）：
-     效果优先下把噪点 ::after 的 opacity 设为 0，纯靠大 blur 磨砂。
-     大 blur + 噪点双重磨砂会糊成脏，所以效果优先必须关噪点。 */
-  :root[data-effect="on"] .glass::after,
-  :root[data-effect="on"] .glass-strong::after,
-  :root[data-effect="on"] .glass-soft::after { opacity: 0; }
-}
+/* 激活 backdrop-filter（见液态玻璃材质原理章的 :root[data-effect="on"] .glass 规则）：
+   仅在 data-effect="on" 下挂 backdrop-filter；默认玻璃类无此属性，纯 tint 零卷积。 */
 ```
 
-> **关键认知 · 默认与效果优先都仍是液态玻璃**：两档只换"磨砂策略"（磨砂来源），液态玻璃的其他要素（菲涅尔 sheen 高光、边缘 rim 色散、浮起投影、半透 tint）两档完全相同、都随 `--glass-alpha` 联动。所以无论开不开效果优先，玻璃始终是液态玻璃——只是磨砂颗粒来自静态噪点（默认）还是大半径 backdrop-filter（效果优先）。
+> **关键认知 · 默认与效果优先都仍是液态玻璃**：两档只差一个"折射层"（backdrop-filter），液态玻璃的其他要素（菲涅尔 sheen 高光、边缘 rim 色散、浮起投影、半透 tint）两档完全相同、都随 `--glass-alpha` 联动。所以无论开不开效果优先，玻璃始终是液态玻璃——默认是"零折射的液态玻璃"（通透由半透 tint 承载），效果优先开补上"折射层"（后方内容被 blur+saturate 柔化）。默认档零 backdrop-filter、零卷积开销，主流机/低端机绝对流畅；效果优先档激活真折射、截图最出彩，但低端机可能掉帧。
 
 ### Store + 开关
 
 ```ts
 // src/store/theme.ts
-// effectPriority 默认 false —— 默认（主流机流畅，磨砂颗粒由静态噪点提供）
+// effectPriority 默认 false —— 默认（纯 tint 玻璃，零 backdrop-filter，主流机/低端机绝对流畅）
 effectPriority: false,
 
 setEffectPriority: (on) => {
   set({ effectPriority: on });
-  // 关键：设 <html data-effect="on"> 触发 CSS 变量覆写（换肤走 CSS 变量天然响应，无 JS 重渲染）
+  // 关键：设 <html data-effect="on"> 触发 CSS 变量覆写 + backdrop-filter 挂载（换肤走 CSS 变量天然响应，无 JS 重渲染）
   document.documentElement.setAttribute('data-effect', on ? 'on' : 'off');
   localStorage.setItem('aurora-effect-priority', on ? 'on' : 'off');
 },
@@ -373,25 +325,21 @@ toggleEffectPriority: () => get().setEffectPriority(!get().effectPriority),
 
 ### 效果优先自检子清单
 
-- [ ] 默认**关**（`effectPriority: false`、`<html>` 默认无 `data-effect="on"`）= 默认（blur 4px 常数 + 噪点磨砂层）？
-- [ ] 开启后 `:root[data-effect="on"]` 覆写 blur/saturate 随 α 浮动(2~24px / 1.1~1.85)，`.glass` 退回纯 tint（关 noise overlay）？
+- [ ] 默认**关**（`effectPriority: false`、`<html>` 默认无 `data-effect="on"`）= 纯 tint 玻璃（无 backdrop-filter、零卷积）？
+- [ ] 开启后 `:root[data-effect="on"]` 定义 blur/saturate 随 α 浮动(2~24px / 1.1~1.85)，`.glass` 挂上 backdrop-filter 激活真折射？
 - [ ] 两档液态玻璃要素（sheen/rim/投影/tint）相同，`--glass-alpha` 两档都驱动浓重度？
 - [ ] 开关经 store → `documentElement.setAttribute('data-effect', ...)` + localStorage 持久化，有 `role="switch"` + `aria-checked`？
 - [ ] Topbar 开关有清晰态标签（性能优先 / 效果优先）？
 
-### 错 vs 对（磨砂策略切换）
+### 错 vs 对（折射开关）
 
 ```
-❌ 错：效果优先开了，但没关噪点层
-       → 大 blur + 噪点双重磨砂，玻璃糊成一团脏，颗粒与模糊互相干扰
+❌ 错：默认（效果优先关）下还给 .glass 挂 backdrop-filter
+       → 默认本该零卷积（纯 tint），挂上又退回高开销，丢掉默认的主流机流畅优势
 
-❌ 错：默认下为了"更磨砂"把 blur 钉到 20px
-       → 又退回效果优先的高开销，丢掉默认的主流机流畅优势
-       （默认的磨砂本就该由噪点提供，blur 只需极轻折射）
-
-✅ 对：默认 = blur(4px) + 噪点磨砂层（静态、便宜），磨砂颗粒来自噪点
-       效果优先 = blur 浮动(大半径) + 关噪点，磨砂来自大 backdrop-filter
-       两档都是液态玻璃，只是磨砂来源不同，按设备/场景切换
+✅ 对：默认 = 纯 tint 玻璃（零 backdrop-filter），通透由半透 tint 承载，主流机/低端机绝对流畅
+       效果优先 = 激活 backdrop-filter（blur 浮动大半径），激活真折射，截图最出彩
+       两档都是液态玻璃，只差折射层，按设备/场景切换
 ```
 
 ---
@@ -438,16 +386,14 @@ toggleReduceMotion: () => get().setReduceMotion(!get().reduceMotion),
 
 ### 降级行为（CSS + 运动类动效 + 星尘 + 流星 四侧）
 
-**① CSS 侧（玻璃降级）**：`<html data-reduce-motion="on">` 下玻璃关 `backdrop-filter` 与噪点层、退回纯 tint（与移动端同款降级）。
+**① CSS 侧（玻璃降级）**：`<html data-reduce-motion="on">` 下玻璃关 `backdrop-filter`、退回纯 tint（即使效果优先开着，reduce-motion 也强制降为纯 tint 玻璃）。
 
 ```css
 @layer components {
+  /* 减少动效强制纯 tint：即使效果优先开着，reduce-motion 也强制关掉 backdrop-filter（零折射、零卷积）。 */
   :root[data-reduce-motion="on"] .glass,
   :root[data-reduce-motion="on"] .glass-strong,
   :root[data-reduce-motion="on"] .glass-soft { -webkit-backdrop-filter: none; backdrop-filter: none; }
-  :root[data-reduce-motion="on"] .glass::after,
-  :root[data-reduce-motion="on"] .glass-strong::after,
-  :root[data-reduce-motion="on"] .glass-soft::after { opacity: 0; }
 }
 ```
 
@@ -716,14 +662,14 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 
 - 断点：桌面 ≥1280 / 平板 768–1279 / 移动 <768
 - 流星密度三档(≤6/≤4/≤3)
-- 玻璃 blur 在小屏略减（移动端 backdrop-filter 开销）
+- 默认（效果优先关）玻璃本就零 backdrop-filter，移动端无额外折射开销；效果优先开时小屏可自动降级回纯 tint（移动端 backdrop-filter 相对昂贵）
 
 ---
 
 ## 执行流程
 
-1. 搭 `globals.css` 双维度 token（明暗 × 7 色 + 玻璃 alpha token + 流星/星空 token）+ 默认常数 blur(4px)/saturate(1.5)/噪点贴图 + `:root[data-effect="on"]` 效果优先覆写（blur/saturate 浮动）
-2. 写 `.glass` / `.glass-strong` 组件类（纯 tint + 弱 blur + `::before` 合并 sheen/rim + `::after` 专属噪点磨砂层[独立 opacity] + 投影 + alpha 联动；`data-effect="on"` 把 `::after` opacity 置 0）
+1. 搭 `globals.css` 双维度 token（明暗 × 7 色 + 玻璃 alpha token + 流星/星空 token）——默认不定义 `--glass-blur`/`--glass-saturate`（纯 tint 玻璃），仅 `:root[data-effect="on"]` 覆写 blur/saturate 浮动
+2. 写 `.glass` / `.glass-strong` 组件类（**默认纯 tint：半透底色 + `::before` 合并 sheen/rim + 浮起投影，无 backdrop-filter**；`:root[data-effect="on"] .glass` 挂 backdrop-filter 激活真折射；`--glass-alpha` 联动背景色/边框/sheen/rim/投影）
 3. 写 Zustand store（mode/accent/glassAlpha/effectPriority/reduceMotion + setGlassAlpha 设 CSS 变量 + setEffectPriority 设 data-effect + setReduceMotion 设 data-reduce-motion + 持久化）
 4. 搭背景层：StarfieldBackground(Canvas) + MeteorLayer(DOM) + CursorMeteor(星尘)
 5. 搭前景 UI（Sidebar/Topbar/KpiCard/图表/表格），全用 `.glass`/`.glass-strong`
@@ -736,20 +682,18 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 ## 自检清单
 
 **液态玻璃**
-- [ ] `.glass` = 弱 backdrop-filter blur(4px) saturate(1.5) + 半透 tint + `::before`（sheen+rim 合并）+ `::after`（噪点磨砂层，独立 `opacity: var(--glass-noise-opacity)`）+ 浮起投影（多层叠加）？
-- [ ] 噪点用独立 `::after` + `mix-blend-mode: overlay` + `opacity`，**未**混进 `.glass` 的 `background-blend-mode`（后者无法调强度，全强度会偏亮偏脏）？
-- [ ] 噪点 SVG 滤镜里**有 `feComponentTransfer`** 把四通道压到中灰带（`slope='0.35' intercept='0.325'`）？没有则原始满量程噪点会变"电视雪花"？
-- [ ] 默认有 `--glass-noise` 静态 feTurbulence 噪点磨砂层（颗粒感不靠大 blur），效果优先时关闭？
+- [ ] `.glass` = **默认纯 tint**（半透底色 + `::before` 合并 sheen/rim + 浮起投影，**无 backdrop-filter**），`data-effect="on"` 时挂 `backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))` 激活真折射？
+- [ ] 默认玻璃**零 `backdrop-filter`**（零卷积开销），开启效果优先才激活折射？
 - [ ] 绝无 Three.js/R3F/Drei/postprocessing/troika 依赖？
 
 **可调透明度**
-- [ ] `--glass-alpha` 驱动 8+ 层，每层 clamp 非零下限？
-- [ ] 默认 blur/saturate 钉弱档常数(4px/1.5)，磨砂颗粒由噪点层提供？
+- [ ] `--glass-alpha` 驱动背景色/边框/sheen/rim/投影（效果优先开还额外驱动 blur/saturate），每层 clamp 非零下限？
+- [ ] 默认（效果优先关）玻璃无 backdrop-filter，通透由半透 `--glass-bg` 承载？
 - [ ] 滑块经 store 设 CSS 变量 + localStorage 持久化？
 
 **效果优先开关（默认关）**
-- [ ] Topbar 有效果优先开关，**默认关**（blur 4px 常数 + 噪点磨砂，主流机流畅）？
-- [ ] 开启后 `:root[data-effect="on"]` 覆写 blur/saturate 随 α 浮动(2~24px)，`.glass` 退回纯 tint（关 noise overlay）？
+- [ ] Topbar 有效果优先开关，**默认关**（纯 tint 玻璃，零 backdrop-filter、主流机/低端机绝对流畅）？
+- [ ] 开启后 `:root[data-effect="on"]` 定义 blur/saturate 随 α 浮动(2~24px / 1.1~1.85)，`.glass` 挂上 backdrop-filter 激活真折射？
 - [ ] 两档液态玻璃要素（sheen/rim/投影/tint）相同，`--glass-alpha` 两档都驱动浓重度？
 - [ ] 开关经 store → `data-effect` 属性 + localStorage 持久化，有 `role="switch"` + `aria-checked`？
 
@@ -765,7 +709,7 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 - [ ] Topbar 有「减少动效」开关，**默认关**（`<html>` 默认无 `data-reduce-motion="on"`）？
 - [ ] **全篇不读系统 `prefers-reduced-motion`**（无 `@media (prefers-reduced-motion)`、无 `useReducedMotion()`）？运动类动效一律订阅 `data-reduce-motion` 属性 / Zustand `reduceMotion`？
 - [ ] 开关经 store → `data-reduce-motion` 属性 + localStorage 持久化，有 `role="switch"` + `aria-checked` + 清晰态标签（动效完整 / 动效已减弱）？
-- [ ] 开启后：入场/循环/星尘/装饰流光（SheenSweep）降级或关闭，玻璃退回纯 tint（关 backdrop-filter + 噪点），但**功能性反馈保留**（状态点/聚焦环/加载仍有视觉反馈）？
+- [ ] 开启后：入场/循环/星尘/装饰流光（SheenSweep）降级或关闭，玻璃退回纯 tint（强制关 backdrop-filter），但**功能性反馈保留**（状态点/聚焦环/加载仍有视觉反馈）？
 
 **主题系统**
 - [ ] 双维度(明暗×7色)，Zustand → data-* 属性 → CSS 变量，默认暗色？
@@ -780,11 +724,11 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 
 ## 设计准则
 
-1. **液态玻璃优先**：UI 控件全是 `.glass`，多层叠加出质感（弱 blur + tint + 噪点磨砂 + sheen + rim + 投影），非单一 blur。
+1. **液态玻璃优先**：UI 控件全是 `.glass`，多层叠加出质感（半透 tint + sheen + rim + 投影，默认零折射；效果优先开补 backdrop-filter 折射），非单一 blur。
 2. **一强多弱（装饰性常驻光效仅顶栏）**：`SheenSweep` 边缘流光全页仅放顶栏 1 处；内容卡承载必须静读的数据，只用状态类（在线/告警脉冲）与触发类（hover/click）光效；强感知来自编排节奏，不是堆砌。
 3. **强调色点睛**：accent 只用在 CTA/选中态/数据高亮，不大面积铺。
 4. **颜色走变量/store**：绝不在组件里写死色值，全读 CSS 变量或 Zustand。
-5. **磨砂策略 + 动效均可切换（默认弱 blur+噪点 / 动效完整）**：默认（弱 blur + 噪点，主流机流畅）；效果优先切大 blur（截图最出彩）；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）压低运动类动效、关星尘、玻璃退纯 tint。流畅靠噪点补磨砂而非加大 blur。
+5. **折射可切换（默认纯 tint / 效果优先完整液态玻璃）**：默认（效果优先关）= 纯 tint 玻璃（零 backdrop-filter、主流机/低端机绝对流畅）；效果优先开 = 激活 backdrop-filter 真折射（截图最出彩）；「减少动效」开关（默认关，**不读系统 prefers-reduced-motion**）压低运动类动效、关星尘、强制玻璃退纯 tint。流畅靠默认零折射而非削减视觉。
 6. **绝不白屏**：CSS 变量兜底、无外部资源依赖（无字体/模型外链）。
 
 ---
@@ -793,12 +737,11 @@ transition: transform 0.3s var(--ease-spring), opacity 0.3s var(--ease-liquid);
 
 | 误区 | 正确做法 |
 |------|----------|
-| 普通 `backdrop-filter: blur()` 一层了事 | 多层叠加（弱 blur + tint + 噪点磨砂 + sheen + rim + 投影）才是液态玻璃 |
-| 只降背景 alpha 调透明度 | `--glass-alpha` 同时驱动 8+ 层，且 clamp 非零下限 |
+| 默认（效果优先关）还给 `.glass` 挂 `backdrop-filter` | **默认必须纯 tint（零 backdrop-filter）**——挂上就退回高开销、丢掉主流机流畅优势；折射只在效果优先开时激活 |
+| 普通 `backdrop-filter: blur()` 一层了事（效果优先开时） | 多层叠加（backdrop-filter 折射 + tint + sheen + rim + 投影）才是液态玻璃 |
+| 只降背景 alpha 调透明度 | `--glass-alpha` 同时驱动背景色/边框/sheen/rim/投影（效果优先开还驱动 blur/saturate），且 clamp 非零下限 |
 | 透明度下限归零(α=0 玻璃消失) | clamp 非零下限——任何时候都是玻璃，只调浓重度 |
 | 透明度下限太高(默认像磨砂板) | α=1 背景应 ≤0.25 |
-| 默认下嫌"不够磨砂"就把 blur 钉到 20px | 磨砂颗粒感应由 `--glass-noise` 静态噪点层提供（人眼判定磨砂颗粒感 > 模糊感），blur 只需极轻折射(4px)；加大 blur 补磨砂 = 退回效果优先高开销 |
-| 效果优先模式开了却没关噪点层 | 大 blur + 噪点双重磨砂会糊成一团脏；效果优先必须关 noise overlay、纯靠大 blur 磨砂 |
 | `translate(vw,vh)` 移动流星 | `rotate(angle) translateX(distance)` 沿自身轴线飞 |
 | 流星速度太快(1~2s) | 舒缓 3~6s，偶发优雅 |
 | 亮色主题用白流星 | `color-mix(accent 45%, 灰)` 主题色偏灰 |
